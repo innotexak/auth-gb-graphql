@@ -1,24 +1,47 @@
-using Auth.API.Data;
-using Microsoft.EntityFrameworkCore;
+using Auth.API.Entities;
+using Auth.API.Services.AuthService;
+using HotChocolate.Authorization;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using System.Threading;
 
-namespace Auth.API.Services;
 
-[GraphQLName("Query")]
-public class Query
+namespace Auth.API.Services.AuthService
 {
-    public async Task<ProfileDto> GetProfile(string userId, [Service] AuthDBContext dbContext, CancellationToken cancellationToken)
+    [ExtendObjectType(Name = "Query")]
+    public class AuthQuery
     {
-
-    var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Id.ToString() == userId, cancellationToken);
-        if (user == null)
+        [Authorize]
+        public async Task<ProfileDto> GetProfile(
+          ClaimsPrincipal claimsPrincipal,
+          [Service] AuthDatasource authDatasource,
+          [Service] IHttpContextAccessor httpContextAccessor,
+          CancellationToken cancellationToken)
         {
-            throw new Exception("User not found");
+
+            if (claimsPrincipal?.Identity?.IsAuthenticated != true)
+            {
+                throw new GraphQLException("User is not authenticated.");
+            }
+
+            var userId = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new GraphQLException("User information not found in token.");
+            }
+            return await authDatasource.GetProfileAsync(userId, cancellationToken);
         }
 
-        return new ProfileDto
+        public async Task<List<User>> GetAllUsers(
+      ClaimsPrincipal claimsPrincipal, 
+      [Service] AuthDatasource authDatasource)
         {
-            Username = user.Username,
-            Email = user.Email
-        };
+           
+            var userId = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
+
+           
+            return await authDatasource.GetAllUsersAsync(userId);
+        }
     }
 }

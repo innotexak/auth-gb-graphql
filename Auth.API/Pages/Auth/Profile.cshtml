@@ -1,0 +1,39 @@
+@page
+@model Auth.API.Pages.Auth.ProfileModel
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<div class="max-w-lg mx-auto bg-white rounded-xl shadow-sm border border-slate-100 p-6">
+    <h1 class="text-2xl font-semibold text-slate-900 mb-2">Profile</h1>
+    <p class="text-sm text-slate-600 mb-4">
+        This page loads the user profile via the GraphQL <code class="bg-slate-100 px-1 rounded">getProfile</code> query.
+    </p>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="mb-3 rounded-md border border-red-200 bg-red-50 text-red-700 px-3 py-2 text-sm">
+            @Model.ErrorMessage
+        </div>
+    }
+
+    @if (Model.Profile is not null)
+    {
+        <dl class="space-y-3 text-sm">
+            <div>
+                <dt class="font-medium text-slate-700">Username</dt>
+                <dd class="text-slate-900">@Model.Profile.Username</dd>
+            </div>
+            <div>
+                <dt class="font-medium text-slate-700">Email</dt>
+                <dd class="text-slate-900">@Model.Profile.Email</dd>
+            </div>
+        </dl>
+    }
+    else
+    {
+        <p class="text-sm text-slate-500">No profile data loaded. Please login first.</p>
+    }
+</div>
+
+

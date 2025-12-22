@@ -1,0 +1,37 @@
+@page
+@model Auth.API.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<section class="grid md:grid-cols-2 gap-8 items-center">
+    <div>
+        <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+            GraphQL + Razor Pages with Tailwind
+        </h1>
+        <p class="text-slate-600 mb-6">
+            This UI is built on top of your existing GraphQL API for authentication and posts.
+            Use the links below to explore the functionality.
+        </p>
+        <div class="flex flex-wrap gap-3">
+            <a asp-page="/Posts/Index"
+               class="inline-flex items-center px-4 py-2 rounded-md bg-sky-600 text-white hover:bg-sky-700">
+                Browse Posts
+            </a>
+            <a asp-page="/Auth/Register"
+               class="inline-flex items-center px-4 py-2 rounded-md border border-sky-500 text-sky-700 hover:bg-sky-50">
+                Create Account
+            </a>
+        </div>
+    </div>
+    <div class="bg-white shadow-sm rounded-2xl p-6 border border-slate-100">
+        <h2 class="text-lg font-semibold text-slate-800 mb-3">What’s available</h2>
+        <ul class="space-y-2 text-sm text-slate-600">
+            <li>• User registration, login, and profile via GraphQL mutations and queries.</li>
+            <li>• Post listing with pagination, details, creation, update, and delete.</li>
+            <li>• Clean Tailwind UI layered on your existing EF Core / GraphQL backend.</li>
+        </ul>
+    </div>
+</section>
+
+

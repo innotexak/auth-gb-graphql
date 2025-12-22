@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Auth.API.Entities
 {
     public class User
@@ -6,9 +8,11 @@ namespace Auth.API.Entities
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
         public string Username { get; set; } = string.Empty;
-        public string RefreshToken {  get; set; } = string.Empty;
 
-        public DateTime? RefreshTokenExpiryTime { get; set; }
-        public string Role { get; set; } = string.Empty;
+        [InverseProperty("User")]
+        public Authentication? Authentication { get; set; } 
+
+        public ICollection<Post> Posts { get; set; } = new List<Post>();
     }
+
 }

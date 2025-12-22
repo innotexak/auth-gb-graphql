@@ -28,6 +28,7 @@ public class LoginDto
 // Profile DTO
 public class ProfileDto
 {
+    public Guid? Id { get; set; }
     [Required]
     public required string Email { get; set; }
 
@@ -40,7 +41,7 @@ public class ProfileDto
 
 public class LoginResponseDto
 {
-    public required string Token { get; set; }
+    public  TokenResponseDto? Tokens { get; set; }
     public required string UserId { get; set; }
     public required string Username { get; set; }
     public required string Email { get; set; }
@@ -49,6 +50,20 @@ public class NormalResponseDto
 {
     public required string Message { get; set; }
     public int? StatusCode { get; set; } = 200;
-    public Object? Data { get; set; }
 }
- 
+
+public class NormalResponseWithDataDto<T>
+{
+    public required string Message { get; set; }
+    public int? StatusCode { get; set; } = 200;
+    public T? Data { get; set; }
+}
+public class TokenResponseDto
+    {
+        public string AccessToken { get; set; }
+        public string RefreshToken { get; set; }
+    }
+public class LogoutResponseDto
+{
+    public string Message { get; set; } = "Logged out successfully";
+}
