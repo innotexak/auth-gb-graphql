@@ -123,10 +123,10 @@ C:\Users\innocent.akuh\Desktop\GQDotnet\Auth.API\obj\Debug\net8.0\staticwebasset
 C:\Users\innocent.akuh\Desktop\GQDotnet\Auth.API\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\innocent.akuh\Desktop\GQDotnet\Auth.API\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\innocent.akuh\Desktop\GQDotnet\Auth.API\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\innocent.akuh\Desktop\GQDotnet\Auth.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\innocent.akuh\Desktop\GQDotnet\Auth.API\obj\Debug\net8.0\Auth.API.csproj.Up2Date
 C:\Users\innocent.akuh\Desktop\GQDotnet\Auth.API\obj\Debug\net8.0\Auth.API.dll
 C:\Users\innocent.akuh\Desktop\GQDotnet\Auth.API\obj\Debug\net8.0\refint\Auth.API.dll
 C:\Users\innocent.akuh\Desktop\GQDotnet\Auth.API\obj\Debug\net8.0\Auth.API.pdb
 C:\Users\innocent.akuh\Desktop\GQDotnet\Auth.API\obj\Debug\net8.0\Auth.API.genruntimeconfig.cache
 C:\Users\innocent.akuh\Desktop\GQDotnet\Auth.API\obj\Debug\net8.0\ref\Auth.API.dll
+C:\Users\innocent.akuh\Desktop\GQDotnet\Auth.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

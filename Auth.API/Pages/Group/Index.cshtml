@@ -1,0 +1,154 @@
+﻿@page
+@model Auth.API.Pages.Dm.IndexModel
+@using System.Security.Claims
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@{
+    ViewData["Title"] = "Group Chat";
+}
+
+<div class="flex h-[100vh] bg-slate-50">
+    <!-- Sidebar -->
+    <div id="groupsSidebar" class="w-80 bg-white border-r border-slate-200 flex flex-col transition-all duration-300 max-md:absolute max-md:left-0 max-md:top-0 max-md:h-full max-md:z-40">
+        <div class="p-4 border-b border-slate-200 flex items-center justify-between">
+            <h1 class="text-2xl font-semibold text-slate-900">Groups</h1>
+            <button id="addGroupBtn" type="button" class="p-2 hover:bg-slate-100 rounded-lg transition-colors" title="Add new group">
+                <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+            </button>
+        </div>
+        <div id="groupsList" class="flex-1 overflow-y-auto">
+            <p id="groupsLoading" class="text-sm text-slate-500 text-center py-8">Loading groups...</p>
+        </div>
+    </div>
+
+    <!-- Main Chat Area -->
+    <div class="flex-1 flex flex-col">
+        <div id="chatHeader" class="bg-white border-b border-slate-200 p-4 hidden flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <button id="backBtn" type="button" class="md:hidden p-2 hover:bg-slate-100 rounded-md transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                </button>
+                <div>
+                    <p class="text-lg font-semibold text-slate-900" id="selectedGroupName"></p>
+                    <p class="text-sm text-slate-500" id="selectedGroupDesc"></p>
+                </div>
+            </div>
+            <!-- ADD MEMBERS BUTTON -->
+            <button id="addMembersBtn" type="button" class="p-2 hover:bg-slate-100 rounded-lg transition-colors" title="Add members to group">
+                <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                </svg>
+            </button>
+        </div>
+
+        <div id="noGroupSelected" class="flex-1 flex items-center justify-center text-slate-400">
+            <p>Select a group to start messaging</p>
+        </div>
+
+        <div id="chatMessages" class="flex-1 overflow-y-auto space-y-3 p-4 hidden bg-white">
+        </div>
+
+        <div id="typingIndicator" class="px-4 py-2 text-xs text-slate-500 italic hidden">
+            <span id="typingText">Someone is typing...</span>
+        </div>
+
+        <form id="dmForm" class="bg-white border-t border-slate-200 p-4 hidden">
+            <div class="flex gap-3">
+                <input id="messageInput" class="flex-1 rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500" placeholder="Write a message..." />
+                <button id="sendBtn" type="button" class="px-4 py-2 rounded bg-sky-600 text-white text-sm font-medium hover:bg-sky-700">Send</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Create Group Modal -->
+<div id="groupModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-bold text-slate-900">Create New Group</h2>
+            <button id="closeModalBtn" type="button" class="text-slate-400 hover:text-slate-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+
+        <form id="createGroupForm" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-slate-900 mb-2">Group Title</label>
+                <input id="groupTitle" name="Title" type="text" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent" placeholder="Enter group title" required />
+                <span id="titleError" class="text-xs text-red-600 mt-1 block hidden"></span>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-slate-900 mb-2">Description</label>
+                <textarea id="groupDescription" name="Description" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent resize-none" placeholder="Enter group description" rows="3"></textarea>
+                <span id="descError" class="text-xs text-red-600 mt-1 block hidden"></span>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-slate-900 mb-2">Status</label>
+                <select id="groupStatus" name="Status" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent">
+                    <option value="ACTIVE">Active</option>
+                    <option value="INACTIVE">Inactive</option>
+                </select>
+            </div>
+
+            <div id="formError" class="rounded-lg border border-red-300 bg-red-50 text-red-700 px-4 py-3 text-sm hidden"></div>
+
+            <div class="flex gap-3 pt-4">
+                <button id="cancelBtn" type="button" class="flex-1 px-4 py-2 border border-slate-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors">Cancel</button>
+                <button id="submitBtn" type="submit" class="flex-1 px-4 py-2 bg-sky-600 text-white rounded-lg text-sm font-medium hover:bg-sky-700 transition-colors">Create Group</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ADD MEMBERS MODAL -->
+<div id="addMembersModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 max-h-[90vh] flex flex-col">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-bold text-slate-900">Add Members to Group</h2>
+            <button id="closeAddMembersBtn" type="button" class="text-slate-400 hover:text-slate-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+
+        <div class="mb-4">
+            <input id="userSearchInput"
+                   type="text"
+                   class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                   placeholder="Search users by name or email..." />
+        </div>
+
+        <div id="usersList" class="fl   ex-1 overflow-y-auto border border-slate-200 rounded-lg mb-4">
+            <p class="text-sm text-slate-500 text-center py-4">Loading users...</p>
+        </div>
+
+        <div class="flex gap-3">
+            <button id="cancelAddMembersBtn" type="button" class="flex-1 px-4 py-2 border border-slate-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors">Cancel</button>
+            <button id="addSelectedBtn" type="button" class="flex-1 px-4 py-2 bg-sky-600 text-white rounded-lg text-sm font-medium hover:bg-sky-700 transition-colors">Add Selected</button>
+        </div>
+    </div>
+</div>
+
+<!-- Data Container -->
+@{
+    var groupsJson = JsonSerializer.Serialize(
+        Model?.Groups ?? new List<Auth.API.Pages.Dm.IndexModel.GroupDto>(),
+        new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }
+    );
+    var currentUserId = User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier) ?? "";
+}
+<div id="app-data"
+     data-current-user-id="@currentUserId"
+     data-initial-groups='@Html.Raw(groupsJson)'>
+</div>
+
+<script src="~/js/group-chat.js" type="module"></script>

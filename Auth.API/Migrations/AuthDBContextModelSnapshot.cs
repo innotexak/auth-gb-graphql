@@ -52,11 +52,11 @@ namespace Auth.API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("39ff6063-0989-49bb-a1e9-c034f840828d"),
+                            Id = new Guid("bd74dfce-6028-4c28-9a30-8b23dd64841a"),
                             RefreshToken = "refreshToken",
-                            RefreshTokenExpiryTime = new DateTime(2025, 12, 26, 9, 59, 13, 681, DateTimeKind.Utc).AddTicks(6283),
+                            RefreshTokenExpiryTime = new DateTime(2025, 12, 31, 9, 52, 42, 784, DateTimeKind.Utc).AddTicks(1253),
                             Role = "User",
-                            UserId = new Guid("deba4264-5482-4ca5-a74d-d02ecf5d19af")
+                            UserId = new Guid("94d60db7-180e-4e9f-b955-fd118673d28f")
                         });
                 });
 
@@ -69,9 +69,8 @@ namespace Auth.API.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -91,6 +90,12 @@ namespace Auth.API.Migrations
 
                     b.Property<DateTime>("JoinedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -133,6 +138,39 @@ namespace Auth.API.Migrations
                     b.ToTable("DirectMessages");
                 });
 
+            modelBuilder.Entity("Auth.API.Entities.Group", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ConversationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConversationId");
+
+                    b.HasIndex("UserId", "Title")
+                        .IsUnique();
+
+                    b.ToTable("Groups");
+                });
+
             modelBuilder.Entity("Auth.API.Entities.Post", b =>
                 {
                     b.Property<Guid>("Id")
@@ -163,11 +201,11 @@ namespace Auth.API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9e618ef3-de15-4912-be10-ee4c81b6bcbc"),
+                            Id = new Guid("bbea6ce2-7a44-48be-93df-ba9e4a198ec6"),
                             Content = "This is the content",
                             Description = "First Post",
                             Title = "Hello World",
-                            UserId = new Guid("deba4264-5482-4ca5-a74d-d02ecf5d19af")
+                            UserId = new Guid("94d60db7-180e-4e9f-b955-fd118673d28f")
                         });
                 });
 
@@ -196,7 +234,7 @@ namespace Auth.API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("deba4264-5482-4ca5-a74d-d02ecf5d19af"),
+                            Id = new Guid("94d60db7-180e-4e9f-b955-fd118673d28f"),
                             Email = "user@gmail.com",
                             Password = "password123",
                             Username = "user123"
@@ -250,6 +288,25 @@ namespace Auth.API.Migrations
                     b.Navigation("Conversation");
 
                     b.Navigation("Sender");
+                });
+
+            modelBuilder.Entity("Auth.API.Entities.Group", b =>
+                {
+                    b.HasOne("Auth.API.Entities.Conversation", "Conversation")
+                        .WithMany()
+                        .HasForeignKey("ConversationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Auth.API.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Conversation");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Auth.API.Entities.Post", b =>

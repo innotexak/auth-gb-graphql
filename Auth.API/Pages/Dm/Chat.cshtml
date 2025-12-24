@@ -58,7 +58,6 @@
 @* PASS SERVER DATA TO JAVASCRIPT SAFELY *@
 <div id="app-data"
      data-current-user-id="@Model.User.FindFirstValue(ClaimTypes.NameIdentifier)" 
-  
      data-initial-users='@Html.Raw(JsonSerializer.Serialize(Model.Users, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }))'> 
 </div>
 

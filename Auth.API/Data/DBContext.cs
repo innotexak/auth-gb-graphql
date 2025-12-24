@@ -17,6 +17,8 @@ namespace Auth.API.Data
         public DbSet<ConversationParticipant> ConversationParticipants => Set<ConversationParticipant>();
         public DbSet<DirectMessage> DirectMessages => Set<DirectMessage>();
 
+        public DbSet<Group> Groups => Set<Group>();
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -138,6 +140,11 @@ namespace Auth.API.Data
 
                 entity.HasIndex(dm => dm.ConversationId);
             });
+
+            // Enforce uniqueness of title in group table for a particular user 
+            modelBuilder.Entity<Group>()
+              .HasIndex(g => new { g.UserId, g.Title })
+              .IsUnique();
 
         }
     }
