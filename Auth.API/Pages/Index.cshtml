@@ -4,34 +4,215 @@
     ViewData["Title"] = "Home";
 }
 
-<section class="grid md:grid-cols-2 gap-8 items-center">
-    <div>
-        <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-            GraphQL + Razor Pages with Tailwind
-        </h1>
-        <p class="text-slate-600 mb-6">
-            This UI is built on top of your existing GraphQL API for authentication and posts.
-            Use the links below to explore the functionality.
-        </p>
-        <div class="flex flex-wrap gap-3">
-            <a asp-page="/Posts/Index"
-               class="inline-flex items-center px-4 py-2 rounded-md bg-sky-600 text-white hover:bg-sky-700">
-                Browse Posts
-            </a>
-            <a asp-page="/Auth/Register"
-               class="inline-flex items-center px-4 py-2 rounded-md border border-sky-500 text-sky-700 hover:bg-sky-50">
-                Create Account
-            </a>
+<!-- Hero Section -->
+<section class="max-w-7xl mx-auto px-4  py-16">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+        <!-- Left Content -->
+        <div>
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+                Connect, Share & Communicate
+            </h1>
+            <p class="text-lg text-slate-600 mb-8">
+                A modern social platform built with GraphQL, Razor Pages, and Tailwind CSS. Share posts, chat with friends, create groups, and build your community.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-wrap gap-3 mb-8">
+                <a asp-page="/Posts/Index"
+                   class="inline-flex items-center px-6 py-3 rounded-lg bg-sky-600 text-white font-semibold hover:bg-sky-700 transition shadow-lg hover:shadow-xl">
+                    <i class="fas fa-newspaper mr-2"></i>
+                    Browse Posts
+                </a>
+                <a asp-page="/Auth/Register"
+                   class="inline-flex items-center px-6 py-3 rounded-lg border-2 border-sky-500 text-sky-700 font-semibold hover:bg-sky-50 transition">
+                    <i class="fas fa-user-plus mr-2"></i>
+                    Create Account
+                </a>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-3 gap-4">
+                <div class="bg-slate-100 rounded-lg p-4">
+                    <div class="text-2xl font-bold text-sky-600">1000+</div>
+                    <div class="text-sm text-slate-600">Active Users</div>
+                </div>
+                <div class="bg-slate-100 rounded-lg p-4">
+                    <div class="text-2xl font-bold text-sky-600">5000+</div>
+                    <div class="text-sm text-slate-600">Posts Shared</div>
+                </div>
+                <div class="bg-slate-100 rounded-lg p-4">
+                    <div class="text-2xl font-bold text-sky-600">24/7</div>
+                    <div class="text-sm text-slate-600">Support</div>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="bg-white shadow-sm rounded-2xl p-6 border border-slate-100">
-        <h2 class="text-lg font-semibold text-slate-800 mb-3">What’s available</h2>
-        <ul class="space-y-2 text-sm text-slate-600">
-            <li>• User registration, login, and profile via GraphQL mutations and queries.</li>
-            <li>• Post listing with pagination, details, creation, update, and delete.</li>
-            <li>• Clean Tailwind UI layered on your existing EF Core / GraphQL backend.</li>
-        </ul>
+
+        <!-- Right Feature Cards -->
+        <div class="space-y-4">
+            <div class="bg-white shadow-lg rounded-xl p-6 border border-slate-100 hover:shadow-xl transition">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-pen text-sky-600"></i>
+                    </div>
+                    <h3 class="font-semibold text-slate-900">Share Posts</h3>
+                </div>
+                <p class="text-sm text-slate-600">Create, edit, and delete posts. Engage with your community through thoughts and ideas.</p>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-xl p-6 border border-slate-100 hover:shadow-xl transition">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-comments text-emerald-600"></i>
+                    </div>
+                    <h3 class="font-semibold text-slate-900">Direct Messages</h3>
+                </div>
+                <p class="text-sm text-slate-600">Send private messages to friends. Real-time chat with secure connections.</p>
+            </div>
+
+            <div class="bg-white shadow-lg rounded-xl p-6 border border-slate-100 hover:shadow-xl transition">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-users text-purple-600"></i>
+                    </div>
+                    <h3 class="font-semibold text-slate-900">Group Chats</h3>
+                </div>
+                <p class="text-sm text-slate-600">Create and manage group conversations. Collaborate with multiple people at once.</p>
+            </div>
+        </div>
     </div>
 </section>
 
+<!-- Features Section -->
+<section id="features" class="bg-slate-900 text-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold mb-12 text-center">What's Available</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Feature 1 -->
+            <div class="bg-slate-800 rounded-lg p-6">
+                <div class="w-12 h-12 bg-sky-500 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-lock text-lg"></i>
+                </div>
+                <h3 class="font-semibold mb-2">Authentication</h3>
+                <p class="text-slate-400 text-sm">Secure registration, login, and profile management via GraphQL.</p>
+            </div>
 
+            <!-- Feature 2 -->
+            <div class="bg-slate-800 rounded-lg p-6">
+                <div class="w-12 h-12 bg-emerald-500 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-newspaper text-lg"></i>
+                </div>
+                <h3 class="font-semibold mb-2">Posts</h3>
+                <p class="text-slate-400 text-sm">Create, read, update, and delete posts with pagination support.</p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="bg-slate-800 rounded-lg p-6">
+                <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-envelope text-lg"></i>
+                </div>
+                <h3 class="font-semibold mb-2">Direct Messages</h3>
+                <p class="text-slate-400 text-sm">One-on-one private messaging with message history and notifications.</p>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="bg-slate-800 rounded-lg p-6">
+                <div class="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-comments text-lg"></i>
+                </div>
+                <h3 class="font-semibold mb-2">Group Messages</h3>
+                <p class="text-slate-400 text-sm">Create groups and chat with multiple users simultaneously.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Explore Sections -->
+<section id="sections" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <h2 class="text-3xl font-bold text-slate-900 mb-12 text-center">Explore TeiHub</h2>
+    
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Posts Card -->
+        <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition overflow-hidden border border-slate-100">
+            <div class="bg-gradient-to-br from-sky-400 to-sky-600 h-32 flex items-center justify-center">
+                <i class="fas fa-newspaper text-white text-5xl opacity-80"></i>
+            </div>
+            <div class="p-6">
+                <h3 class="text-lg font-bold text-slate-900 mb-2">Posts Feed</h3>
+                <p class="text-slate-600 text-sm mb-4">Discover and share posts with the community. Create your own content.</p>
+                <a asp-page="/Posts/Index"
+                   class="inline-flex items-center text-sky-600 font-semibold hover:text-sky-700 transition">
+                    View Posts
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Direct Messages Card -->
+        <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition overflow-hidden border border-slate-100">
+            <div class="bg-gradient-to-br from-emerald-400 to-emerald-600 h-32 flex items-center justify-center">
+                <i class="fas fa-envelope text-white text-5xl opacity-80"></i>
+            </div>
+            <div class="p-6">
+                <h3 class="text-lg font-bold text-slate-900 mb-2">Direct Messages</h3>
+                <p class="text-slate-600 text-sm mb-4">Chat one-on-one with friends and colleagues privately.</p>
+                <a asp-page="/Messages/DirectMessages"
+                   class="inline-flex items-center text-emerald-600 font-semibold hover:text-emerald-700 transition">
+                    Open Messages
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Group Chat Card -->
+        <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition overflow-hidden border border-slate-100">
+            <div class="bg-gradient-to-br from-purple-400 to-purple-600 h-32 flex items-center justify-center">
+                <i class="fas fa-users text-white text-5xl opacity-80"></i>
+            </div>
+            <div class="p-6">
+                <h3 class="text-lg font-bold text-slate-900 mb-2">Group Chat</h3>
+                <p class="text-slate-600 text-sm mb-4">Create groups and communicate with multiple people at once.</p>
+                <a asp-page="/Messages/Groups"
+                   class="inline-flex items-center text-purple-600 font-semibold hover:text-purple-700 transition">
+                    Join Groups
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Profile Card -->
+        <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition overflow-hidden border border-slate-100">
+            <div class="bg-gradient-to-br from-amber-400 to-amber-600 h-32 flex items-center justify-center">
+                <i class="fas fa-user-circle text-white text-5xl opacity-80"></i>
+            </div>
+            <div class="p-6">
+                <h3 class="text-lg font-bold text-slate-900 mb-2">My Profile</h3>
+                <p class="text-slate-600 text-sm mb-4">Manage your account, profile details, and preferences.</p>
+                <a asp-page="/Auth/Profile"
+                   class="inline-flex items-center text-amber-600 font-semibold hover:text-amber-700 transition">
+                    View Profile
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="bg-gradient-to-r from-sky-600 to-blue-600 text-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Join TeiHub?</h2>
+        <p class="text-lg text-sky-100 mb-8 max-w-2xl mx-auto">
+            Connect with friends, share your thoughts, and be part of a growing community. Sign up today!
+        </p>
+        <div class="flex flex-wrap gap-4 justify-center">
+            <a asp-page="/Auth/Register"
+               class="px-8 py-3 bg-white text-sky-600 font-semibold rounded-lg hover:bg-slate-100 transition shadow-lg">
+                Get Started Free
+            </a>
+            <a asp-page="/Auth/Login"
+               class="px-8 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:bg-opacity-10 transition">
+                Already a Member?
+            </a>
+        </div>
+    </div>
+</section>

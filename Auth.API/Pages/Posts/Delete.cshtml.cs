@@ -1,4 +1,5 @@
 using System.Net.Http.Json;
+using System.Text.Json.Serialization;
 using Auth.API.Entities;
 using Auth.API.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -15,88 +16,105 @@ public class DeleteModel : PageModel
         _httpClientFactory = httpClientFactory;
     }
 
-    [FromRoute]
+    // This property will hold the ID for the UI to use
+    [BindProperty]
     public string Id { get; set; } = string.Empty;
 
     public string? PostTitle { get; set; }
     public string? ErrorMessage { get; set; }
 
-    public async Task OnGetAsync()
+    // The 'id' comes from the URL route @page "{id}"
+    public async Task OnGetAsync(string id)
     {
-        // Load minimal info for confirmation
-        var client = _httpClientFactory.CreateClient();
-        client.BaseAddress = new Uri($"{Request.Scheme}://{Request.Host}");
-
-        var graphQLRequest = new
+        if (string.IsNullOrEmpty(id))
         {
-            query = @"
-query Post($id: String!) {
-  getPostById(id: $id) {
-    id
-    title
-  }
-}",
-            variables = new { id = Id }
-        };
-
-        var response = await client.PostAsJsonAsync("/graphql", graphQLRequest);
-        if (!response.IsSuccessStatusCode)
-        {
-            ErrorMessage = $"Failed to load post. Status {(int)response.StatusCode}";
+            ErrorMessage = "No post ID provided.";
             return;
         }
 
-        var graphResponse = await response.Content.ReadFromJsonAsync<GraphQLResponse<PostPayload>>();
-        if (graphResponse?.Errors != null && graphResponse.Errors.Any())
-        {
-            ErrorMessage = graphResponse.Errors.First().Message;
-            return;
-        }
-
-        PostTitle = graphResponse?.Data?.GetPostById?.Title;
+        Id = id; // Store it in the property for the form
+        await FetchPostDetails(id);
     }
 
     public async Task<IActionResult> OnPostAsync()
     {
+        if (string.IsNullOrEmpty(Id))
+        {
+            ErrorMessage = "Post ID is missing. Cannot delete.";
+            return Page();
+        }
+
         var client = _httpClientFactory.CreateClient();
         client.BaseAddress = new Uri($"{Request.Scheme}://{Request.Host}");
 
         var graphQLRequest = new
         {
             query = @"
-mutation DeletePost($id: String!) {
-  deletePost(id: $id)
-}",
+                mutation DeletePost($id: String!) {
+                  deletePost(id: $id)
+                }",
             variables = new { id = Id }
         };
 
-        var response = await client.PostAsJsonAsync("/graphql", graphQLRequest);
-        if (!response.IsSuccessStatusCode)
+        try
         {
-            ErrorMessage = $"Failed to delete post. Status {(int)response.StatusCode}";
+            var response = await client.PostAsJsonAsync("/graphql", graphQLRequest);
+            var result = await response.Content.ReadFromJsonAsync<GraphQLResponse<DeletePostPayload>>();
+
+            if (result?.Errors != null && result.Errors.Any())
+            {
+                ErrorMessage = result.Errors.First().Message;
+                await FetchPostDetails(Id); // Reload title for the UI
+                return Page();
+            }
+
+            return RedirectToPage("Index");
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"An error occurred: {ex.Message}";
             return Page();
         }
-
-        var graphResponse = await response.Content.ReadFromJsonAsync<GraphQLResponse<DeletePostPayload>>();
-        if (graphResponse?.Errors != null && graphResponse.Errors.Any())
-        {
-            ErrorMessage = graphResponse.Errors.First().Message;
-            return Page();
-        }
-
-        // If GraphQL returns false, treat as failure but still navigate back
-        return RedirectToPage("Index");
     }
 
+    private async Task FetchPostDetails(string id)
+    {
+        var client = _httpClientFactory.CreateClient();
+        client.BaseAddress = new Uri($"{Request.Scheme}://{Request.Host}");
+
+        var graphQLRequest = new
+        {
+            query = @"
+            query Post($id: String!) {
+              getPostById(id: $id) {
+                id
+                title
+              }
+            }",
+            variables = new { id = id }
+        };
+
+        var response = await client.PostAsJsonAsync("/graphql", graphQLRequest);
+        if (response.IsSuccessStatusCode)
+        {
+            var result = await response.Content.ReadFromJsonAsync<GraphQLResponse<PostPayload>>();
+            if (result?.Data?.GetPostById != null)
+            {
+                PostTitle = result.Data.GetPostById.Title;
+            }
+        }
+    }
+
+    // --- Helper Classes ---
     private sealed class PostPayload
     {
+        [JsonPropertyName("getPostById")]
         public Post? GetPostById { get; set; }
     }
 
     private sealed class DeletePostPayload
     {
+        [JsonPropertyName("deletePost")]
         public bool DeletePost { get; set; }
     }
 }
-
-

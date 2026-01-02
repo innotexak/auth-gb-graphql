@@ -1,39 +1,167 @@
-@page
-@model Auth.API.Pages.Auth.ProfileModel
-@{
-    ViewData["Title"] = "Profile";
-}
+    @page
+    @model Auth.API.Pages.Auth.ProfileModel
+    @{
+        ViewData["Title"] = "Profile";
+    }
 
-<div class="max-w-lg mx-auto bg-white rounded-xl shadow-sm border border-slate-100 p-6">
-    <h1 class="text-2xl font-semibold text-slate-900 mb-2">Profile</h1>
-    <p class="text-sm text-slate-600 mb-4">
-        This page loads the user profile via the GraphQL <code class="bg-slate-100 px-1 rounded">getProfile</code> query.
-    </p>
+    <div class="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+        <!-- Profile Header -->
+        <div class="bg-white border-b border-gray-200">
+            <div class="max-w-4xl mx-auto px-6 py-12">
+                <div class="flex flex-col md:flex-row items-start md:items-end gap-8">
+                    <!-- Avatar -->
+                    <div class="relative">
+                        <div class="w-32 h-32 rounded-2xl bg-gray-200 flex items-center justify-center text-5xl font-bold text-gray-400 overflow-hidden">
+                            @if (!string.IsNullOrEmpty(Model.Profile?.Username))
+                            {
+                                <span>@Model.Profile.Username[0].ToString().ToUpper()</span>
+                            }
+                            else
+                            {
+                                <span>?</span>
+                            }
+                        </div>
+                        <button class="absolute bottom-0 right-0 p-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition" title="Change avatar">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                            </svg>
+                        </button>
+                    </div>
 
-    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-    {
-        <div class="mb-3 rounded-md border border-red-200 bg-red-50 text-red-700 px-3 py-2 text-sm">
-            @Model.ErrorMessage
+                    <!-- User Info -->
+                    <div class="flex-1">
+                        <h1 class="text-3xl font-semibold text-gray-900 mb-1">
+                            @(Model.Profile?.Username ?? "User")
+                        </h1>
+                        <p class="text-gray-600 mb-4">Member since @(Model.Profile != null ? DateTime.UtcNow.Year : "—")</p>
+                        <div class="flex flex-wrap gap-3">
+                            <button class="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition font-medium">
+                                Edit Profile
+                            </button>
+                            <button class="px-4 py-2 border border-gray-300 text-gray-900 rounded-lg hover:bg-gray-50 transition font-medium">
+                                Settings
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    }
 
-    @if (Model.Profile is not null)
-    {
-        <dl class="space-y-3 text-sm">
-            <div>
-                <dt class="font-medium text-slate-700">Username</dt>
-                <dd class="text-slate-900">@Model.Profile.Username</dd>
-            </div>
-            <div>
-                <dt class="font-medium text-slate-700">Email</dt>
-                <dd class="text-slate-900">@Model.Profile.Email</dd>
-            </div>
-        </dl>
-    }
-    else
-    {
-        <p class="text-sm text-slate-500">No profile data loaded. Please login first.</p>
-    }
-</div>
+        <!-- Main Content -->
+        <div class="max-w-4xl mx-auto px-6 py-12">
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <div class="mb-6 rounded-lg border border-red-200 bg-red-50 text-red-700 px-4 py-3 text-sm">
+                    <div class="flex gap-3">
+                        <svg class="w-5 h-5 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span>@Model.ErrorMessage</span>
+                    </div>
+                </div>
+            }
 
+            @if (Model.Profile is not null)
+            {
+                <!-- Profile Details -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <!-- Account Information -->
+                    <div class="bg-white rounded-xl border border-gray-200 p-6">
+                        <h2 class="text-lg font-semibold text-gray-900 mb-6">Account Information</h2>
+                        <dl class="space-y-5">
+                            <div>
+                                <dt class="text-sm font-medium text-gray-600 mb-2">Username</dt>
+                                <dd class="text-base text-gray-900 font-medium">@Model.Profile.Username</dd>
+                            </div>
+                            <div>
+                                <dt class="text-sm font-medium text-gray-600 mb-2">Email</dt>
+                                <dd class="text-base text-gray-900 break-all">@Model.Profile.Email</dd>
+                            </div>
+                        <div>
+                            <dt class="text-sm font-medium text-gray-600 mb-2">First Name</dt>
+                            <dd class="text-base text-gray-900 break-all">@Model.Profile.FirstName</dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm font-medium text-gray-600 mb-2">Last Name</dt>
+                            <dd class="text-base text-gray-900 break-all">@Model.Profile.LastName</dd>
+                        </div>
+                            <div>
+                                <dt class="text-sm font-medium text-gray-600 mb-2">Account Status</dt>
+                                <dd>
+                                    <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-50 text-green-700 text-sm font-medium">
+                                        <span class="w-2 h-2 rounded-full bg-green-600"></span>
+                                        Active
+                                    </span>
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
 
+                    <!-- Statistics -->
+                    <div class="bg-white rounded-xl border border-gray-200 p-6">
+                        <h2 class="text-lg font-semibold text-gray-900 mb-6">Activity</h2>
+                        <div class="space-y-5">
+                            <div>
+                                <dt class="text-sm font-medium text-gray-600 mb-2">Posts</dt>
+                            <dd class="text-2xl font-bold text-gray-900">@Model.Profile.UserStats.PostCount</dd>
+                            </div>
+                            <div>
+                                <dt class="text-sm font-medium text-gray-600 mb-2">Groups Joined</dt>
+                                <dd class="text-2xl font-bold text-gray-900">@Model.Profile.UserStats.GroupCount</dd>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Sections -->
+                <div class="grid grid-cols-1 gap-6">
+                    <!-- Bio Section -->
+                    <div class="bg-white rounded-xl border border-gray-200 p-6">
+                        <h2 class="text-lg font-semibold text-gray-900 mb-4">Bio</h2>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            @Model.Profile.Bio
+                        </p>
+                    </div>
+
+                    <!-- Preferences -->
+                    <div class="bg-white rounded-xl border border-gray-200 p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-lg font-semibold text-gray-900">Preferences</h2>
+                            <button class="text-sm font-medium text-gray-600 hover:text-gray-900 transition">
+                                Edit
+                            </button>
+                        </div>
+                        <dl class="space-y-4 text-sm">
+                            <div class="flex justify-between items-center">
+                                <dt class="text-gray-600">Email Notifications</dt>
+                            <dd class="text-gray-900 font-medium">@Model.Profile.Preferences.EmailNotification</dd>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <dt class="text-gray-600">Profile Visibility</dt>
+                                <dd class="text-gray-900 font-medium">@Model.Profile.Preferences.ProfileVisibility</dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+
+                <!-- Danger Zone -->
+                <div class="mt-8 bg-white rounded-xl border border-red-200 p-6">
+                    <h2 class="text-lg font-semibold text-red-900 mb-4">Danger Zone</h2>
+                    <p class="text-sm text-gray-600 mb-4">Irreversible actions that may have serious consequences.</p>
+                    <button class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-medium text-sm">
+                        Delete Account
+                    </button>
+                </div>
+            }
+            else
+            {
+                <div class="bg-white rounded-xl border border-gray-200 p-12 text-center">
+                    <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <p class="text-gray-600 mb-2 font-medium">No profile data loaded</p>
+                    <p class="text-sm text-gray-500">Please login first to view your profile.</p>
+                </div>
+            }
+        </div>
+    </div>

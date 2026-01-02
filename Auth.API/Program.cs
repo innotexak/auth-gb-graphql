@@ -11,8 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +31,7 @@ builder.Services.AddScoped<AuthHelpers>();
 builder.Services.AddScoped<AuthDatasource>();
 builder.Services.AddScoped<PostDatasource>();
 builder.Services.AddScoped<DmDatasource>();
+//builder.Services.AddSignalR();
 builder.Services.AddHttpContextAccessor();
 
 // --------------------
@@ -107,6 +107,12 @@ builder.Services.AddAuthentication(options =>
 // Build & Middleware
 // --------------------
 var app = builder.Build();
+
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
 
 app.UseRouting();
 app.UseAuthentication();

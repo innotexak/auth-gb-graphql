@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Auth.API.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Auth.API.Entities
 {
@@ -8,7 +9,7 @@ namespace Auth.API.Entities
         public Guid Id { get; set; }
 
         [Required]
-        public string Type { get; set; } = "DM";
+        public ConversationType Type { get; set; } = ConversationType.Direct;
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 

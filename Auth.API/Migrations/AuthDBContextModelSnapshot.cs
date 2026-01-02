@@ -52,11 +52,11 @@ namespace Auth.API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("39ff6063-0989-49bb-a1e9-c034f840828d"),
+                            Id = new Guid("ad2b0a41-ca0f-445a-b36e-0dcc1f122b78"),
                             RefreshToken = "refreshToken",
-                            RefreshTokenExpiryTime = new DateTime(2025, 12, 26, 9, 59, 13, 681, DateTimeKind.Utc).AddTicks(6283),
+                            RefreshTokenExpiryTime = new DateTime(2026, 1, 7, 13, 55, 17, 409, DateTimeKind.Utc).AddTicks(3038),
                             Role = "User",
-                            UserId = new Guid("deba4264-5482-4ca5-a74d-d02ecf5d19af")
+                            UserId = new Guid("76953481-9f77-4a6a-b867-da9e1f93a486")
                         });
                 });
 
@@ -69,9 +69,8 @@ namespace Auth.API.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -91,6 +90,12 @@ namespace Auth.API.Migrations
 
                     b.Property<DateTime>("JoinedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -133,6 +138,39 @@ namespace Auth.API.Migrations
                     b.ToTable("DirectMessages");
                 });
 
+            modelBuilder.Entity("Auth.API.Entities.Group", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ConversationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConversationId");
+
+                    b.HasIndex("UserId", "Title")
+                        .IsUnique();
+
+                    b.ToTable("Groups");
+                });
+
             modelBuilder.Entity("Auth.API.Entities.Post", b =>
                 {
                     b.Property<Guid>("Id")
@@ -163,11 +201,11 @@ namespace Auth.API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9e618ef3-de15-4912-be10-ee4c81b6bcbc"),
+                            Id = new Guid("b83957bf-91eb-49bf-9fec-a787dba86157"),
                             Content = "This is the content",
                             Description = "First Post",
                             Title = "Hello World",
-                            UserId = new Guid("deba4264-5482-4ca5-a74d-d02ecf5d19af")
+                            UserId = new Guid("76953481-9f77-4a6a-b867-da9e1f93a486")
                         });
                 });
 
@@ -177,7 +215,23 @@ namespace Auth.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Avatar")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Bio")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -196,8 +250,12 @@ namespace Auth.API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("deba4264-5482-4ca5-a74d-d02ecf5d19af"),
+                            Id = new Guid("76953481-9f77-4a6a-b867-da9e1f93a486"),
+                            Avatar = "default-avatar.png",
+                            Bio = "Software Developer",
                             Email = "user@gmail.com",
+                            FirstName = "",
+                            LastName = "",
                             Password = "password123",
                             Username = "user123"
                         });
@@ -252,6 +310,25 @@ namespace Auth.API.Migrations
                     b.Navigation("Sender");
                 });
 
+            modelBuilder.Entity("Auth.API.Entities.Group", b =>
+                {
+                    b.HasOne("Auth.API.Entities.Conversation", "Conversation")
+                        .WithMany()
+                        .HasForeignKey("ConversationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Auth.API.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Conversation");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Auth.API.Entities.Post", b =>
                 {
                     b.HasOne("Auth.API.Entities.User", "User")
@@ -261,6 +338,33 @@ namespace Auth.API.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Auth.API.Entities.User", b =>
+                {
+                    b.OwnsOne("Auth.API.Services.PrefereceDto", "Preferences", b1 =>
+                        {
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<bool>("EmailNotification")
+                                .HasMaxLength(10)
+                                .HasColumnType("bit");
+
+                            b1.Property<int>("ProfileVisibility")
+                                .HasMaxLength(10)
+                                .HasColumnType("int");
+
+                            b1.HasKey("UserId");
+
+                            b1.ToTable("Users");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
+                        });
+
+                    b.Navigation("Preferences")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Auth.API.Entities.Conversation", b =>

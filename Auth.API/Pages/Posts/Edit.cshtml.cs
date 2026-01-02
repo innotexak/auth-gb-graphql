@@ -1,9 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net.Http.Json;
+using System.Text.Json.Serialization;
+using Auth.API.Entities;
 using Auth.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Auth.API.Entities;
 
 namespace Auth.API.Pages.Posts;
 
@@ -23,52 +24,67 @@ public class EditModel : PageModel
 
     public async Task OnGetAsync(string id)
     {
-        // Load existing post to pre-populate form
-        var client = _httpClientFactory.CreateClient();
-        client.BaseAddress = new Uri($"{Request.Scheme}://{Request.Host}");
-
-        var graphQLRequest = new
+        if (string.IsNullOrWhiteSpace(id))
         {
-            query = @"
-query Post($id: String!) {
-  getPostById(id: $id) {
-    id
-    title
-    description
-    content
-  }
-}",
-            variables = new { id }
-        };
-
-        var response = await client.PostAsJsonAsync("/graphql", graphQLRequest);
-        if (!response.IsSuccessStatusCode)
-        {
-            ErrorMessage = $"Failed to load post. Status {(int)response.StatusCode}";
+            ErrorMessage = "Invalid post id.";
             return;
         }
 
-        var graphResponse = await response.Content.ReadFromJsonAsync<GraphQLResponse<PostPayload>>();
-        if (graphResponse?.Errors != null && graphResponse.Errors.Any())
+        try
         {
-            ErrorMessage = graphResponse.Errors.First().Message;
-            return;
-        }
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri($"{Request.Scheme}://{Request.Host}");
 
-        var post = graphResponse?.Data?.GetPostById;
-        if (post is null)
-        {
-            ErrorMessage = "Post not found.";
-            return;
-        }
+            var graphQLRequest = new
+            {
+                query = @"
+                    query Post($id: String!) {
+                      postById(id: $id) {
+                        id
+                        title
+                        description
+                        content
+                      }
+                    }",
+                variables = new { id }
+            };
 
-        Input = new UpdatePostInputModel
+            var response = await client.PostAsJsonAsync("/graphql", graphQLRequest);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                ErrorMessage = $"Failed to load post. Status: {(int)response.StatusCode}";
+                return;
+            }
+
+            var graphResponse = await response.Content.ReadFromJsonAsync<GraphQLResponse<PostPayload>>();
+
+            if (graphResponse?.Errors != null && graphResponse.Errors.Any())
+            {
+                ErrorMessage = graphResponse.Errors.First().Message;
+                return;
+            }
+
+            var post = graphResponse?.Data?.PostById;
+
+            if (post is null)
+            {
+                ErrorMessage = "Post not found.";
+                return;
+            }
+
+            Input = new UpdatePostInputModel
+            {
+                Id = post.Id.ToString(),
+                Title = post.Title,
+                Description = post.Description,
+                Content = post.Content
+            };
+        }
+        catch (Exception ex)
         {
-            Id = post.Id.ToString(),
-            Title = post.Title,
-            Description = post.Description,
-            Content = post.Content
-        };
+            ErrorMessage = $"An error occurred: {ex.Message}";
+        }
     }
 
     public async Task<IActionResult> OnPostAsync()
@@ -78,44 +94,54 @@ query Post($id: String!) {
             return Page();
         }
 
-        var client = _httpClientFactory.CreateClient();
-        client.BaseAddress = new Uri($"{Request.Scheme}://{Request.Host}");
-
-        var graphQLRequest = new
+        try
         {
-            query = @"
-mutation UpdatePost($input: UpdatePostDto!) {
-  updatePost(input: $input) {
-    id
-  }
-}",
-            variables = new
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri($"{Request.Scheme}://{Request.Host}");
+
+            var graphQLRequest = new
             {
-                input = new UpdatePostDto
+                query = @"
+                    mutation UpdatePost($input: UpdatePostDto!) {
+                      updatePost(input: $input) {
+                        id
+                      }
+                    }",
+                variables = new
                 {
-                    Id = Input.Id,
-                    Title = Input.Title,
-                    Description = Input.Description,
-                    Content = Input.Content
+                    input = new
+                    {
+                        id = Input.Id,
+                        title = Input.Title,
+                        description = Input.Description,
+                        content = Input.Content
+                    }
                 }
+            };
+
+            var response = await client.PostAsJsonAsync("/graphql", graphQLRequest);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                ErrorMessage = $"Failed to update post. Status: {(int)response.StatusCode}";
+                return Page();
             }
-        };
 
-        var response = await client.PostAsJsonAsync("/graphql", graphQLRequest);
-        if (!response.IsSuccessStatusCode)
+            var graphResponse = await response.Content.ReadFromJsonAsync<GraphQLResponse<UpdatePostPayload>>();
+
+            if (graphResponse?.Errors != null && graphResponse.Errors.Any())
+            {
+                ErrorMessage = graphResponse.Errors.First().Message;
+                return Page();
+            }
+
+            return RedirectToPage("Index");
+        }
+        catch (Exception ex)
         {
-            ErrorMessage = $"Failed to update post. Status {(int)response.StatusCode}";
+            ErrorMessage = $"An error occurred: {ex.Message}";
             return Page();
         }
-
-        var graphResponse = await response.Content.ReadFromJsonAsync<GraphQLResponse<UpdatePostPayload>>();
-        if (graphResponse?.Errors != null && graphResponse.Errors.Any())
-        {
-            ErrorMessage = graphResponse.Errors.First().Message;
-            return Page();
-        }
-
-        return RedirectToPage("Index");
     }
 
     public class UpdatePostInputModel
@@ -135,13 +161,13 @@ mutation UpdatePost($input: UpdatePostDto!) {
 
     private sealed class PostPayload
     {
-        public Post? GetPostById { get; set; }
+        [JsonPropertyName("postById")]
+        public Post? PostById { get; set; }
     }
 
     private sealed class UpdatePostPayload
     {
+        [JsonPropertyName("updatePost")]
         public Post? UpdatePost { get; set; }
     }
 }
-
-
