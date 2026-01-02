@@ -23,12 +23,13 @@
     }
 
     <form method="post" class="flex gap-3">
+        @* Hidden input ensures the ID is sent back to OnPostAsync *@
+        <input type="hidden" asp-for="Id" />
+
         <button type="submit"
                 class="inline-flex justify-center items-center px-4 py-2 rounded-md bg-rose-600 text-white text-sm font-medium hover:bg-rose-700">
             Yes, delete
         </button>
-        <a asp-page="Index" class="text-sm text-slate-600 hover:text-slate-800">Cancel</a>
+        <a asp-page="Index" class="text-sm text-slate-600 hover:text-slate-800 flex items-center">Cancel</a>
     </form>
 </div>
-
-

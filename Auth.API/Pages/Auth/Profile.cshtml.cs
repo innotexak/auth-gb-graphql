@@ -1,19 +1,21 @@
-using System.Net.Http.Json;
-using System.Text.Json;
+using Auth.API.Helpers;
+using Auth.API.Services;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Auth.API.Pages.Auth;
 
 public class ProfileModel : PageModel
 {
     // Ensure this matches exactly what is in your AppSettings/Program.cs
-    private readonly string _authCookieName="xx-auth-cookie";
-    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly AuthHelpers _authHelpers;
 
-    public ProfileModel(IHttpClientFactory httpClientFactory)
+    public ProfileModel(IHttpClientFactory httpClientFactory, AuthHelpers authHelpers)
     {
-        _httpClientFactory = httpClientFactory;
+        _authHelpers = authHelpers;
 
     }
 
@@ -22,26 +24,42 @@ public class ProfileModel : PageModel
 
     public async Task OnGetAsync()
     {
-        if (!Request.Cookies.TryGetValue(_authCookieName, out var authCookie))
+        if (!_authHelpers.IsUserLoggedIn())
         {
             ErrorMessage = "You are not logged in. No session cookie found.";
             return;
         }
 
-        var client = _httpClientFactory.CreateClient();
-        client.BaseAddress = new Uri($"{Request.Scheme}://{Request.Host}");
-        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        client.DefaultRequestHeaders.Add("Cookie", $"{_authCookieName}={authCookie}");
-        client.DefaultRequestHeaders.Add("X-Platform", "web");
+
+        var jsonOptions = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
+
+        jsonOptions.Converters.Add(new JsonStringEnumConverter());
+
+
+        var client = _authHelpers.GetAuthenticatedClient();
 
         var graphQLRequest = new
         {
             query = @"
-            query GetProfile {
-                profile {
-                    username
-                    email
+             query GetProfile {
+              profile {
+                username
+                email
+                firstName
+                lastName
+                preferences {
+                  emailNotification
+                  profileVisibility
                 }
+                userStats {
+                  postCount
+                  groupCount
+                }
+                id
+              }
             }"
         };
 
@@ -55,7 +73,8 @@ public class ProfileModel : PageModel
                 return;
             }
 
-            var graphResponse = await response.Content.ReadFromJsonAsync<GraphQLResponse<ProfilePayload>>();
+            var graphResponse = await response.Content.ReadFromJsonAsync<GraphQLResponse<ProfilePayload>>(jsonOptions);
+
 
             if (graphResponse?.Errors != null && graphResponse.Errors.Any())
             {
@@ -89,9 +108,4 @@ public class ProfileModel : PageModel
     }
 }
 
-// Ensure this DTO matches your existing Auth.API.Entities
-public class ProfileDto
-{
-    public string Username { get; set; } = string.Empty;
-    public string Email { get; set; } = string.Empty;
-}
+// Ensure this DTO matches your existing Auth.API.Entitie

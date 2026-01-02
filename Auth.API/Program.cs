@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // --------------------
@@ -30,6 +31,7 @@ builder.Services.AddScoped<AuthHelpers>();
 builder.Services.AddScoped<AuthDatasource>();
 builder.Services.AddScoped<PostDatasource>();
 builder.Services.AddScoped<DmDatasource>();
+//builder.Services.AddSignalR();
 builder.Services.AddHttpContextAccessor();
 
 // --------------------

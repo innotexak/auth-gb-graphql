@@ -1,6 +1,7 @@
 ﻿using Auth.API.Data;
 using Auth.API.Entities;
 using Auth.API.Enums;
+using HotChocolate.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Security.Claims;
@@ -11,6 +12,8 @@ namespace Auth.API.Services.DmService
     [ExtendObjectType(Name = "Query")]
     public class DmQuery
     {
+
+        //Fetch direct messages 
         public async Task<List<DirectMessage>> GetMessagesAsync(
          string otherUserId,
          ClaimsPrincipal user,
@@ -20,7 +23,9 @@ namespace Auth.API.Services.DmService
             // 1. Identify the logged-in user
             var currentUserIdClaim = user.FindFirst(ClaimTypes.NameIdentifier)?.Value
                                      ?? user.FindFirst("sub")?.Value;
-           
+
+
+            Guid otherUserGuid = Guid.Parse(otherUserId);
 
             if (!Guid.TryParse(currentUserIdClaim, out Guid currentUserId))
             {
@@ -31,7 +36,7 @@ namespace Auth.API.Services.DmService
             var conversation = await db.Conversations
                 .Where(c => c.Type == ConversationType.Direct) // Filter by your specific type
                 .Where(c => c.Participants.Any(p => p.UserId == currentUserId) &&
-                            c.Participants.Any(p => p.UserId == new Guid(otherUserId)))
+                            c.Participants.Any(p => p.UserId == otherUserGuid))
                 .Select(c => new { c.Id })
                 .FirstOrDefaultAsync();
 
@@ -48,6 +53,51 @@ namespace Auth.API.Services.DmService
                 .ToListAsync();
         }
 
+
+        //fetch groups messages 
+        public async Task<NormalResponseWithDataDto<List<DirectMessage>>> GetGroupMessagesAsync(
+    string conversationId,
+    ClaimsPrincipal user,
+    AuthDBContext db)
+        {
+            // 1. Identify the logged-in user
+            var currentUserIdClaim = user.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                                     ?? user.FindFirst("sub")?.Value;
+
+
+            System.Diagnostics.Debug.WriteLine($"{conversationId}, conversationId");
+            if (!Guid.TryParse(currentUserIdClaim, out Guid currentUserId) ||
+                !Guid.TryParse(conversationId, out Guid groupGuid))
+            {
+                throw new UnauthorizedAccessException("Invalid User or Group ID.");
+            }
+
+            // 2. Security Check: Ensure the user belongs to this conversation/group
+            var isParticipant = await db.ConversationParticipants
+                .AnyAsync(p => p.ConversationId == groupGuid && p.UserId == currentUserId);
+
+            if (!isParticipant)
+            {
+                throw new UnauthorizedAccessException("You are not a member of this group.");
+            }
+
+            // 3. Return the messages for this specific conversation
+            var createdMessage = await db.DirectMessages
+            .Include(m => m.Sender)
+            .Include(m => m.Conversation) // 🔥 THIS IS THE FIX
+            .Where(m => m.ConversationId == groupGuid)
+            .OrderBy(m => m.CreatedAt)
+            .ToListAsync();
+
+            return new NormalResponseWithDataDto<List<DirectMessage>>
+            {
+                Message = "Group message retrieved successfully",
+                StatusCode = 200,
+                Data = createdMessage!
+            };
+        }
+
+        [Authorize]
         public async Task<NormalResponseWithDataDto<List<Group>>> GetUserGroups(
         ClaimsPrincipal user,
         [Service] DmDatasource datasource

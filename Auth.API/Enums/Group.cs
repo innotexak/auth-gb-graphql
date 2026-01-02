@@ -17,4 +17,10 @@
         Admin = 2
     }
 
+    public enum ProfileVisibilityEnum
+    {
+        Private = 1,
+        Public = 2
+        
+    }
 }

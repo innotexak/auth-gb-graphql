@@ -18,51 +18,48 @@ namespace Auth.API.Services.DmService
         }
 
         // Find or create DM conversation between two users
-        public async Task<Conversation> GetOrCreateConversationAsync(
-            Guid userA,
-            Guid userB
-        )
+        public async Task<Conversation> GetOrCreateConversationAsync(Guid userA, Guid userB)
         {
-
+            // 1. Try to find existing
             var conversation = await _db.Conversations
                 .Include(c => c.Participants)
-                .Where(c =>
+                .FirstOrDefaultAsync(c =>
                     c.Participants.Count == 2 &&
                     c.Participants.Any(p => p.UserId == userA) &&
                     c.Participants.Any(p => p.UserId == userB)
-                )
-                .FirstOrDefaultAsync();
+                );
 
-            if (conversation != null)
-                return conversation;
+            if (conversation != null) return conversation;
 
-            // Create new conversation
-            conversation = new Conversation
+            // 2. Create new if not found
+            var newConversation = new Conversation { Id = Guid.NewGuid() };
+
+            var participants = new List<ConversationParticipant>
+                {
+                    new ConversationParticipant { Id = Guid.NewGuid(), ConversationId = newConversation.Id, UserId = userA },
+                    new ConversationParticipant { Id = Guid.NewGuid(), ConversationId = newConversation.Id, UserId = userB }
+                };
+
+            try
             {
-                Id = Guid.NewGuid()
-            };
+                _db.Conversations.Add(newConversation);
+                _db.ConversationParticipants.AddRange(participants);
 
-            _db.Conversations.Add(conversation);
-            await _db.SaveChangesAsync();
-
-            _db.ConversationParticipants.AddRange(
-                new ConversationParticipant
-                {
-                    Id = Guid.NewGuid(),
-                    ConversationId = conversation.Id,
-                    UserId = userA
-                },
-                new ConversationParticipant
-                {
-                    Id = Guid.NewGuid(),
-                    ConversationId = conversation.Id,
-                    UserId = userB
-                }
-            );
-
-            await _db.SaveChangesAsync();
-
-            return conversation;
+                // Single SaveChanges makes this atomic
+                await _db.SaveChangesAsync();
+                return newConversation;
+            }
+            catch (Exception ex)
+            {
+              
+                return await _db.Conversations
+                    .Include(c => c.Participants)
+                    .FirstOrDefaultAsync(c =>
+                        c.Participants.Count == 2 &&
+                        c.Participants.Any(p => p.UserId == userA) &&
+                        c.Participants.Any(p => p.UserId == userB)
+                    ) ?? throw new Exception("Failed to create or retrieve conversation", ex);
+            }
         }
 
 
@@ -78,13 +75,18 @@ namespace Auth.API.Services.DmService
                 Id = Guid.NewGuid(),
                 ConversationId = conversationId,
                 SenderId = senderId,
-                Content = content
+                Content = content,
+                CreatedAt = DateTime.UtcNow
             };
 
             _db.DirectMessages.Add(message);
             await _db.SaveChangesAsync();
 
-            return message;
+            // Re-fetch the message with its navigation properties loaded
+            return await _db.DirectMessages
+                .Include(m => m.Sender)       // This fixes the "sender" error in your JSON
+                .Include(m => m.Conversation) // Optional: if you need conversation details
+                .FirstAsync(m => m.Id == message.Id);
         }
 
         // Load message history for a conversation (ascending by CreatedAt)
@@ -152,7 +154,8 @@ namespace Auth.API.Services.DmService
             var conversation = new Conversation
             {
                 Id = Guid.NewGuid(),
-                Type = ConversationType.Group
+                Type = ConversationType.Group,
+                CreatedAt= DateTime.UtcNow
             };
 
             _db.Conversations.Add(conversation);
@@ -176,7 +179,10 @@ namespace Auth.API.Services.DmService
                 Id = Guid.NewGuid(),
                 ConversationId = conversation.Id,
                 UserId = userId,
-                Role = GroupRole.Admin
+                Role = GroupRole.Admin,
+                Type = ConversationType.Group,
+                JoinedAt = DateTime.UtcNow,
+
             });
 
             await _db.SaveChangesAsync();
@@ -190,12 +196,18 @@ namespace Auth.API.Services.DmService
 
 
         //Add member to group for chatting
-        public async Task AddGroupMemberAsync(
+        public async Task<NormalResponseDto> AddGroupMemberAsync(
         Guid conversationId,
         Guid adminId,
         Guid newUserId
 )
         {
+
+            System.Diagnostics.Debug.WriteLine($" conversation Id:{conversationId}");
+            System.Diagnostics.Debug.WriteLine($" new Uswer Id:{newUserId}");
+            System.Diagnostics.Debug.WriteLine($" admin Id:{adminId}");
+
+
             var isAdmin = await _db.ConversationParticipants
                 .AnyAsync(p =>
                     p.ConversationId == conversationId &&
@@ -203,17 +215,30 @@ namespace Auth.API.Services.DmService
                     p.Role == GroupRole.Admin
                 );
 
-            if (!isAdmin)
-                throw new UnauthorizedAccessException("Only admins can add members");
-
+            if (!isAdmin) {
+                return new NormalResponseDto
+                {
+                    Message = "Only admins can add members",
+                    StatusCode = 401
+                };
+        
+            }
             _db.ConversationParticipants.Add(new ConversationParticipant
             {
                 Id = Guid.NewGuid(),
                 ConversationId = conversationId,
-                UserId = newUserId
+                UserId = newUserId,
+                JoinedAt = DateTime.UtcNow,
+                Role = GroupRole.Member,
+                Type = ConversationType.Group,
             });
 
             await _db.SaveChangesAsync();
+            return new NormalResponseDto
+            {
+                Message = "User added successfully",
+                StatusCode = 201,
+            };
         }
 
         // Send message to group
@@ -255,6 +280,7 @@ namespace Auth.API.Services.DmService
                 .Where(p => p.ConversationId == conversationId)
                 .Select(p => new ChatUser
                 {
+                    Id=p.UserId,
                     Email = p.User.Email,
                     Username = p.User.Username
                 })
@@ -271,32 +297,42 @@ namespace Auth.API.Services.DmService
         //Get all groups of a user
         public async Task<NormalResponseWithDataDto<List<Group>>> GetUserGroupsAsync(ClaimsPrincipal user)
         {
-
+            // 1. Get user ID from claims
             var userIdClaim =
-               user.FindFirst(ClaimTypes.NameIdentifier)?.Value ??
-               user.FindFirst("sub")?.Value;
+                user.FindFirst(ClaimTypes.NameIdentifier)?.Value ??
+                user.FindFirst("sub")?.Value;
 
-            if (string.IsNullOrWhiteSpace(userIdClaim))
+            if (string.IsNullOrWhiteSpace(userIdClaim) ||
+                !Guid.TryParse(userIdClaim, out var currentUserId))
             {
                 return new NormalResponseWithDataDto<List<Group>>
                 {
-                    Message = "User identifier not found",
+                    Message = "Invalid or missing user identifier",
                     StatusCode = 401,
                     Data = null
                 };
             }
 
-
-    
-            var data =  await _db.Groups
-                .Where(u=>u.UserId == new Guid(userIdClaim))
-                .OrderBy(g => g.Status == Enums.GroupStatus.Active)
+            // 2. Get all conversation IDs where user is a participant
+            var userConversationIds = await _db.ConversationParticipants
+                .Where(p => p.UserId == currentUserId)
+                .Select(p => p.ConversationId)
                 .ToListAsync();
 
-            return new NormalResponseWithDataDto<List<Group>>{
-                Message="Groupd successfully retrieved",
-                Data=data,
-                StatusCode=200
+            // 3. Get groups where user is owner OR participant
+            var groups = await _db.Groups
+                .Where(g =>
+                    g.UserId == currentUserId ||
+                    userConversationIds.Contains(g.ConversationId))
+                .OrderByDescending(g => g.Status == Enums.GroupStatus.Active)
+                .ToListAsync();
+
+            // 4. Return response
+            return new NormalResponseWithDataDto<List<Group>>
+            {
+                Message = "Groups successfully retrieved",
+                StatusCode = 200,
+                Data = groups
             };
         }
     }

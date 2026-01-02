@@ -1,10 +1,10 @@
 ﻿using Auth.API.Data;
 using Auth.API.Entities;
+using Auth.API.Enums;
 using Auth.API.ErrorHandling.Exceptions;
 using Auth.API.Helpers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -85,7 +85,7 @@ namespace Auth.API.Services.AuthService
             if (tokens.Count < 2)
             {
                 // Create new token
-                var authentication = new Authentication
+                var authentication = new Auth.API.Entities.Authentication
                 {
                     UserId = user.Id,
                     Role = "User",
@@ -194,17 +194,61 @@ namespace Auth.API.Services.AuthService
 
         public async Task<ProfileDto> GetProfileAsync(string userId, CancellationToken cancellationToken)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id.ToString() == userId, cancellationToken);
+            // Parse userId to Guid if stored as Guid in database
+            if (!Guid.TryParse(userId, out var userGuid))
+            {
+                throw new NotFoundException("Invalid user ID format");
+            }
+
+            // Fetch user with related data
+            var user = await _dbContext.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Id == userGuid, cancellationToken);
+
             if (user == null)
             {
                 throw new NotFoundException("User not found");
             }
 
+            // Get user statistics (Posts count)
+            var postCount = await _dbContext.Posts
+                .AsNoTracking()
+                .CountAsync(p => p.UserId == userGuid, cancellationToken);
+
+            // Get user statistics (Groups joined count)
+            var groupCount = await _dbContext.Groups
+                .AsNoTracking()
+                .CountAsync(ug => ug.UserId == userGuid, cancellationToken);
+
+            // Get user preferences
+
+            var preferences = new PrefereceDto
+            {
+                ProfileVisibility = user.Preferences != null
+            ? user.Preferences.ProfileVisibility
+            : ProfileVisibilityEnum.Public,
+
+                EmailNotification = user.Preferences != null
+            ? user.Preferences.EmailNotification
+            : true
+            };
+
+            // Return complete profile DTO
             return new ProfileDto
             {
+                Id = user.Id,
                 Username = user.Username,
                 Email = user.Email,
-                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Bio = user.Bio,
+                Avatar = user.Avatar,
+                Preferences = preferences,
+                UserStats = new UserStatistics
+                {
+                    PostCount = postCount,
+                    GroupCount = groupCount
+                }
             };
         }
 
@@ -225,7 +269,49 @@ namespace Auth.API.Services.AuthService
         }
 
 
+        //Update user details
+        public async Task<NormalResponseDto> UpdateUserDetails(ProfileUpdateDto input, Guid userId)
+        {
+            var user = await _dbContext.Users.FindAsync(userId);
+            if (user == null)
+                return new NormalResponseDto { Message = "User not found", StatusCode = 404 };
 
+            // Only update properties that are not null
+            if (input.FirstName != null) user.FirstName = input.FirstName;
+            if (input.LastName != null) user.LastName = input.LastName;
+            if (input.Avatar != null) user.Email = input.Avatar;
+            if(input.Bio != null) user.Bio = input.Bio;
+            if (input.Preferences != null) user.Preferences = input.Preferences;
+   
+
+            var entry = _dbContext.Entry(user);
+
+       
+            foreach (var prop in typeof(ProfileUpdateDto).GetProperties())
+            {
+                var value = prop.GetValue(input);
+                if (value != null)
+                    entry.Property(prop.Name).IsModified = true;
+            }
+
+            await _dbContext.SaveChangesAsync();
+
+            return new NormalResponseDto { Message = "Profile updated successfully", StatusCode = 200 };
+        }
+
+        //Delete a user
+        public async Task<NormalResponseDto> DeleteUserAsync(Guid UserId)
+        {
+            var user = await _dbContext.Users.FindAsync(UserId);
+            if (user != null)
+            {
+                _dbContext.Users.Remove(user);
+                await _dbContext.SaveChangesAsync();
+                return new NormalResponseDto { Message = "User deleted successfully", StatusCode = 200 };
+            }
+
+            return new NormalResponseDto { Message = "User not found", StatusCode = 404 };
+        }
 
     }
 }

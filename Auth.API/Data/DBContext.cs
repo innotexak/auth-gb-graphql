@@ -29,6 +29,14 @@ namespace Auth.API.Data
             // Configure Relationships
             // -------------------------------
 
+
+            modelBuilder.Entity<User>()
+            .OwnsOne(u => u.Preferences, pref =>
+            {
+                pref.Property(p => p.EmailNotification).HasMaxLength(10);
+                pref.Property(p => p.ProfileVisibility).HasMaxLength(10);
+                // Configure other properties as needed
+            });
             // Authentication 1:1 User
             modelBuilder.Entity<Authentication>()
                 .HasOne(a => a.User)
@@ -56,10 +64,13 @@ namespace Auth.API.Data
                     Id = userId,
                     Email = "user@gmail.com",
                     Password = "password123",
-                    Username = "user123"
+                    Username = "user123",
+                    Avatar = "default-avatar.png",
+                    Bio = "Software Developer"
                 }
             );
 
+    
             // Authentication seed — only set FK, navigation property remains null
             modelBuilder.Entity<Authentication>().HasData(
                 new Authentication

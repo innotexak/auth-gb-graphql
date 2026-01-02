@@ -47,7 +47,7 @@
             }
 
 
-            public async Task<DirectMessage> SendGroupMessageAsync(
+            public async Task<NormalResponseDto> SendGroupMessageAsync(
                 Guid conversationId,
                 string message,
                 ClaimsPrincipal user,
@@ -86,7 +86,8 @@
                     messageEntity
                 );
 
-                return messageEntity;
+                return new NormalResponseDto {Message="Message sent", StatusCode=201 }
+            ;
             }
 
             public async Task<bool> SetTypingAsync(
@@ -140,6 +141,8 @@
                 [Service] DmDatasource datasource)
             {
 
+
+
                 var adminId =
                         user.FindFirst(ClaimTypes.NameIdentifier)?.Value ??
                         user.FindFirst("sub")?.Value;
@@ -148,13 +151,8 @@
                     throw new GraphQLException("You must login first for this action");
 
                 }
-                await datasource.AddGroupMemberAsync(conversationId, new Guid(adminId), newUserId);
+                return  await datasource.AddGroupMemberAsync(conversationId, new Guid(adminId), newUserId);
 
-                return new NormalResponseDto
-                {
-                    Message = "Memeber added successfully",
-                    StatusCode = 201
-                }; 
             }
 
          

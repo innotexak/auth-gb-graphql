@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using HotChocolate.Authorization;
+using System.Security.Claims;
 
 namespace Auth.API.Services.AuthService
 {
@@ -80,6 +80,7 @@ namespace Auth.API.Services.AuthService
                
         }
 
+        [Authorize]
         public async Task<NormalResponseWithDataDto<LogoutResponseDto>> LogoutUser(
             [Service] AuthDatasource authDatasource,
             HttpContext context
@@ -94,5 +95,42 @@ namespace Auth.API.Services.AuthService
             };
         }
 
+        [Authorize]
+        public async Task<NormalResponseDto> UpdateUserDetails(
+            ProfileUpdateDto input,
+            ClaimsPrincipal user,
+            [Service] AuthDatasource authDatasource,
+            HttpContext context)
+        {
+            var currentUserId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                                 ?? user.FindFirst("sub")?.Value;
+
+            if (string.IsNullOrEmpty(currentUserId))
+            {
+                throw new UnauthorizedAccessException("User not authenticated.");
+            }
+
+            Guid userId = Guid.Parse(currentUserId);
+
+            return await authDatasource.UpdateUserDetails(input, userId);
+        }
+
+        [Authorize]
+        public async Task<NormalResponseDto> DeleteUser(
+            ClaimsPrincipal user,
+            [Service] AuthDatasource authDatasource)
+        {
+            var currentUserId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                            ?? user.FindFirst("sub")?.Value;
+
+            if (string.IsNullOrEmpty(currentUserId))
+            {
+                throw new UnauthorizedAccessException("User not authenticated.");
+            }
+
+            Guid userId = Guid.Parse(currentUserId);
+
+            return await authDatasource.DeleteUserAsync(userId);
+        }
     }
 }

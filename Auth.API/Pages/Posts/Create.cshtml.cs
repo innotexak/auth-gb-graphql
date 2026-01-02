@@ -1,20 +1,22 @@
-using System.ComponentModel.DataAnnotations;
-using System.Net.Http.Json;
-using System.Text.Json;
+using Auth.API.Helpers;
 using Auth.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
+using System.Net.Http.Json;
+using System.Security.Claims;
+using System.Text.Json;
 
 namespace Auth.API.Pages.Posts;
 
 public class CreateModel : PageModel
 {
-    private const string AuthCookieName = "gq_auth";
-    private readonly IHttpClientFactory _httpClientFactory;
 
-    public CreateModel(IHttpClientFactory httpClientFactory)
+ 
+    private readonly AuthHelpers _authHelpers;
+    public CreateModel(AuthHelpers authHelpers)
     {
-        _httpClientFactory = httpClientFactory;
+        _authHelpers = authHelpers;
     }
 
     [BindProperty]
@@ -33,31 +35,16 @@ public class CreateModel : PageModel
             return Page();
         }
 
-        if (!Request.Cookies.TryGetValue(AuthCookieName, out var authCookie))
+ 
+    
+        if (!_authHelpers.IsUserLoggedIn())
         {
-            ErrorMessage = "You must be logged in to create a post.";
+            ErrorMessage = "Please log in to view messages.";
             return Page();
         }
 
-        LoginResponseDto? auth;
-        try
-        {
-            auth = JsonSerializer.Deserialize<LoginResponseDto>(authCookie);
-        }
-        catch
-        {
-            ErrorMessage = "Invalid auth data; please login again.";
-            return Page();
-        }
-
-        if (auth is null || string.IsNullOrEmpty(auth.UserId))
-        {
-            ErrorMessage = "Invalid auth data; please login again.";
-            return Page();
-        }
-
-        var client = _httpClientFactory.CreateClient();
-        client.BaseAddress = new Uri($"{Request.Scheme}://{Request.Host}");
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var client = _authHelpers.GetAuthenticatedClient();
 
         var graphQLRequest = new
         {
@@ -75,7 +62,7 @@ public class CreateModel : PageModel
                     Title = Input.Title,
                     Description = Input.Description,
                     Content = Input.Content,
-                    UserId = auth.UserId
+                    UserId = userId
                 }
             }
         };
