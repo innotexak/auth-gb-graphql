@@ -1,5 +1,6 @@
-using Auth.API.Helpers;
+﻿using Auth.API.Helpers;
 using Auth.API.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -44,12 +45,13 @@ public class ProfileModel : PageModel
         var graphQLRequest = new
         {
             query = @"
-             query GetProfile {
+             query GetProfile {`
               profile {
                 username
                 email
                 firstName
                 lastName
+                bio
                 preferences {
                   emailNotification
                   profileVisibility
@@ -87,6 +89,149 @@ public class ProfileModel : PageModel
         catch (Exception ex)
         {
             ErrorMessage = $"Connection error: {ex.Message}";
+        }
+    }
+
+    public async Task<IActionResult> OnPostUpdateProfileAsync(
+        [FromBody] ProfileUpdateDto input)
+    {
+        if (!_authHelpers.IsUserLoggedIn())
+            return new JsonResult(new { message = "Unauthorized" }) { StatusCode = 401 };
+
+        var client = _authHelpers.GetAuthenticatedClient();
+        client.BaseAddress = new Uri($"{Request.Scheme}://{Request.Host}");
+
+        var graphQLRequest = new
+        {
+            query = @"
+        mutation UpdateUserProfile($input: ProfileUpdateDtoInput!) {
+          updateUserDetails(input: $input) {
+            message
+            statusCode
+          }
+        }",
+            variables = new
+            {
+                input = new
+                {
+                    firstName = input?.FirstName,
+                    lastName = input?.LastName,
+                    bio = input?.Bio,
+                    preferences = new
+                    {
+                        profileVisibility = input?.Preferences?.ProfileVisibility,
+                        emailNotification = input?.Preferences?.EmailNotification,
+                    }
+                }
+            }
+        };
+
+        var response = await client.PostAsJsonAsync("/graphql", graphQLRequest);
+
+        var content = await response.Content.ReadAsStringAsync();
+
+        if (!response.IsSuccessStatusCode)
+        {
+            // Return the server's error message
+            return new JsonResult(new { message = "GraphQL request failed", details = content })
+            { StatusCode = (int)response.StatusCode };
+        }
+
+        // Return the actual GraphQL response
+        return new ContentResult
+        {
+            Content = content,
+            ContentType = "application/json",
+            StatusCode = (int)response.StatusCode
+        };
+    }
+
+    //Logout user by clearing the auth cookie
+    public IActionResult OnPostLogoutAsync()
+    {
+        _authHelpers.Logout();
+        return RedirectToPage("/Auth/Login");
+    }
+
+    //Delete user 
+    public async Task<IActionResult> OnPostDeleteUserAsync()
+    {
+        // 1. Ensure user is authenticated
+        if (!_authHelpers.IsUserLoggedIn())
+        {
+            return new JsonResult(new
+            {
+                message = "Unauthorized"
+            })
+            { StatusCode = StatusCodes.Status401Unauthorized };
+        }
+
+        // 2. Get authenticated HTTP client
+        var client = _authHelpers.GetAuthenticatedClient();
+
+        // 3. GraphQL mutation payload
+        var graphQLRequest = new
+        {
+            query = @"
+        mutation DeleteUser {
+          deleteUser {
+            message
+            statusCode
+          }
+        }"
+        };
+
+        try
+        {
+            // 4. Send mutation to GraphQL
+            var response = await client.PostAsJsonAsync("/graphql", graphQLRequest);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return new JsonResult(new
+                {
+                    message = "Failed to delete account"
+                })
+                { StatusCode = (int)response.StatusCode };
+            }
+
+            // 5. Deserialize GraphQL response
+            var jsonOptions = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            var graphResponse =
+                await response.Content.ReadFromJsonAsync<
+                    GraphQLResponse<NormalResponseDto>>(jsonOptions);
+
+            // 6. Handle GraphQL errors
+            if (graphResponse?.Errors != null && graphResponse.Errors.Any())
+            {
+                return new JsonResult(new
+                {
+                    message = graphResponse.Errors.First().Message
+                })
+                { StatusCode = StatusCodes.Status400BadRequest };
+            }
+
+            // 7. Success → clear auth session
+            _authHelpers.Logout();
+
+            return new JsonResult(new
+            {
+                success = true,
+                message = graphResponse.Data.Message ?? "Account deleted"
+            });
+        }
+        catch (Exception ex)
+        {
+            return new JsonResult(new
+            {
+                message = "Unexpected error occurred",
+                error = ex.Message
+            })
+            { StatusCode = StatusCodes.Status500InternalServerError };
         }
     }
 

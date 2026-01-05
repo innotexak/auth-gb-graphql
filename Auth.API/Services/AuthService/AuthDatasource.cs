@@ -272,26 +272,32 @@ namespace Auth.API.Services.AuthService
         //Update user details
         public async Task<NormalResponseDto> UpdateUserDetails(ProfileUpdateDto input, Guid userId)
         {
-            var user = await _dbContext.Users.FindAsync(userId);
+            var user = await _dbContext.Users
+                .Include(u => u.Preferences) // make sure EF loads it
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
             if (user == null)
                 return new NormalResponseDto { Message = "User not found", StatusCode = 404 };
 
-            // Only update properties that are not null
-            if (input.FirstName != null) user.FirstName = input.FirstName;
-            if (input.LastName != null) user.LastName = input.LastName;
-            if (input.Avatar != null) user.Email = input.Avatar;
-            if(input.Bio != null) user.Bio = input.Bio;
-            if (input.Preferences != null) user.Preferences = input.Preferences;
-   
+            if (!string.IsNullOrEmpty(input.FirstName)) user.FirstName = input.FirstName;
+            if (!string.IsNullOrEmpty(input.LastName)) user.LastName = input.LastName;
+            if (!string.IsNullOrEmpty(input.Avatar)) user.Avatar = input.Avatar;
+            if (!string.IsNullOrEmpty(input.Bio)) user.Bio = input.Bio;
 
-            var entry = _dbContext.Entry(user);
-
-       
-            foreach (var prop in typeof(ProfileUpdateDto).GetProperties())
+            if (input.Preferences != null)
             {
-                var value = prop.GetValue(input);
-                if (value != null)
-                    entry.Property(prop.Name).IsModified = true;
+                if (user.Preferences == null)
+                {
+                    user.Preferences = new PrefereceDto(); // create if missing
+                    _dbContext.Entry(user).Reference(u => u.Preferences).IsModified = true;
+                }
+
+                // copy over individual preference fields
+                user.Preferences.EmailNotification = input.Preferences.EmailNotification;
+                user.Preferences.ProfileVisibility = input.Preferences.ProfileVisibility;
+
+                // mark the navigation as modified
+                _dbContext.Entry(user).Reference(u => u.Preferences).IsModified = true;
             }
 
             await _dbContext.SaveChangesAsync();

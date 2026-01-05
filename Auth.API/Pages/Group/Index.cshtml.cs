@@ -63,6 +63,80 @@ namespace Auth.API.Pages.Dm
             if (_authHelpers.IsUserLoggedIn()) await LoadUserGroups();
         }
 
+
+        public async Task<IActionResult> OnPostCreateGroupAsync()
+        {
+            System.Diagnostics.Debug.WriteLine($"CreateGroup called - Title: {Input?.Title}, Desc: {Input?.Description}, Status: {Input?.Status}");
+
+            if (!ModelState.IsValid)
+            {
+                var errors = string.Join(", ", ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage));
+                System.Diagnostics.Debug.WriteLine($"ModelState invalid: {errors}");
+                return new JsonResult(new { message = $"Validation failed: {errors}", statusCode = 400 });
+            }
+
+            if (!_authHelpers.IsUserLoggedIn())
+                return new JsonResult(new { message = "You must be logged in", statusCode = 401 });
+
+            try
+            {
+                var client = _authHelpers.GetAuthenticatedClient();
+
+                var graphQLRequest = new
+                {
+                    query = @"
+                        mutation CreateUserGroup($input: GroupInputDtoInput!) {
+                          createUserGroup(input: $input) {
+                            message
+                            statusCode
+                          }
+                        }",
+                    variables = new
+                    {
+                        input = new
+                        {
+                            title = Input.Title,
+                            description = Input.Description,
+                            status = Input.Status ?? "ACTIVE"
+                        }
+                    }
+                };
+
+                var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+               
+                var response = await client.PostAsJsonAsync("/graphql", graphQLRequest, options);
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+       
+
+                if (!response.IsSuccessStatusCode)
+                    return new JsonResult(new { message = $"Failed to create group. Status {(int)response.StatusCode}. Response: {responseContent}", statusCode = 500 });
+
+                var graphResponse = await response.Content.ReadFromJsonAsync<GraphQLResponse<CreateGroupPayload>>(options);
+
+                if (graphResponse?.Errors != null && graphResponse.Errors.Any())
+                {
+                    var errorMsg = graphResponse.Errors.First().Message;
+                    System.Diagnostics.Debug.WriteLine($"GraphQL Error: {errorMsg}");
+                    return new JsonResult(new { message = errorMsg, statusCode = 400 });
+                }
+
+                var groupData = graphResponse?.Data?.CreateUserGroup;
+                return new JsonResult(new
+                {
+                    message = groupData?.Message ?? "Group created successfully",
+                    statusCode = groupData?.StatusCode ?? 200,
+
+                });
+            }
+            catch (Exception ex)
+            {
+          
+                return new JsonResult(new { message = $"Error: {ex.Message}", statusCode = 500 });
+            }
+        }
+
+
         private async Task LoadUserGroups()
         {
             try
@@ -91,6 +165,8 @@ namespace Auth.API.Pages.Dm
         {
             [Required] public string Title { get; set; } = "";
             public string Description { get; set; } = "";
+
+            public string Status { get; set; }
         }
 
         private sealed class UserGroupsData
@@ -102,6 +178,24 @@ namespace Auth.API.Pages.Dm
         {
             [JsonPropertyName("data")] public List<GroupDto> Data { get; set; } = new();
         }
+
+   
+        private sealed class CreateGroupData
+        {
+            [JsonPropertyName("message")]
+            public string Message { get; set; } = string.Empty;
+
+            [JsonPropertyName("statusCode")]
+            public int StatusCode { get; set; }
+
+            [JsonPropertyName("data")]
+            public GroupDto? Data { get; set; }
+        }
+
+        private sealed class CreateGroupPayload
+    {
+        [JsonPropertyName("createUserGroup")]
+        public CreateGroupData CreateUserGroup { get; set; } = new();
     }
 
     public class GraphQLResponse<T>
@@ -110,4 +204,7 @@ namespace Auth.API.Pages.Dm
         public List<GraphQLError>? Errors { get; set; }
     }
     public class GraphQLError { public string Message { get; set; } = ""; }
+    }
+
+
 }

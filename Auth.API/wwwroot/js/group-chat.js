@@ -243,6 +243,69 @@
         });
     }
 
+    handleSendMessage(e) {
+        e.preventDefault();
+        const message = this.messageInput.value.trim();
+        if (!message || !this.selectedGroup) return;
+
+        const msgEl = document.createElement('div');
+        msgEl.className = 'flex justify-end';
+        msgEl.innerHTML = `
+            <div class="bg-sky-600 text-white rounded-lg px-4 py-2 max-w-xs text-sm">
+                ${this.escapeHtml(message)}
+            </div>
+        `;
+        this.chatMessages.appendChild(msgEl);
+        this.messageInput.value = '';
+        this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+    }
+
+    showFormError(message) {
+        this.formError.textContent = message;
+        this.formError.classList.remove('hidden');
+    }
+
+    getAntiforgeryToken() {
+        return document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
+    }
+
+    escapeHtml(text) {
+        if (!text) return "";
+        const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+        return text.replace(/[&<>"']/g, m => map[m]);
+    }
+
+    async handleCreateGroup(e) {
+        e.preventDefault();
+        this.submitBtn.disabled = true;
+        this.submitBtn.textContent = 'Creating...';
+
+        try {
+            const formData = new FormData(this.createGroupForm);
+            const response = await fetch('?handler=CreateGroup', {
+                method: 'POST',
+                body: formData,
+                headers: { 'RequestVerificationToken': this.getAntiforgeryToken() }
+            });
+
+            const result = await response.json();
+            if (response.ok && result.statusCode >= 200 && result.statusCode < 300) {
+                window.location.reload();
+            } else {
+                this.showFormError(result?.message || 'Failed to create group');
+                this.submitBtn.disabled = false;
+                this.submitBtn.textContent = 'Create Group';
+            }
+        } catch (error) {
+            this.showFormError('An error occurred while creating the group');
+            this.submitBtn.disabled = false;
+        }
+    }
+}
+
+
+
+
     filterUsers(query) {
         const filtered = this.allUsers.filter(u =>
             (u.username?.toLowerCase().includes(query.toLowerCase())) ||
@@ -266,7 +329,13 @@
         // optional cleanup
         this.createGroupForm.reset();
         this.formError.classList.add('hidden');
-    }
+}
+
+    resetForm() {
+    this.createGroupForm.reset();
+    this.formError.classList.add('hidden');
+    document.querySelectorAll('[id$="Error"]').forEach(el => el.classList.add('hidden'));
+}
 
     updateSidebarCount(groupId, count) {
         const groupButton = document.querySelector(`button[data-group-id="${groupId}"]`);

@@ -87,5 +87,29 @@ namespace Auth.API.Helpers
             return _httpContextAccessor?.HttpContext?.Request.Cookies.ContainsKey(_authCookieName) ?? false;
         }
         #endregion
+
+
+        #region Logout Logic
+        public void Logout()
+        {
+            if (_httpContextAccessor?.HttpContext == null)
+                return;
+
+            var context = _httpContextAccessor.HttpContext;
+
+            // Delete auth cookie
+            context.Response.Cookies.Delete(_authCookieName, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = context.Request.IsHttps,
+                SameSite = SameSiteMode.Strict,
+                Path = "/"
+            });
+
+            // Optional: clear ClaimsPrincipal
+            context.User = new ClaimsPrincipal(new ClaimsIdentity());
+        }
+        #endregion
+
     }
 }

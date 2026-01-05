@@ -111,7 +111,7 @@ namespace Auth.API.Services.AuthService
             }
 
             Guid userId = Guid.Parse(currentUserId);
-
+            System.Diagnostics.Debug.WriteLine(input);
             return await authDatasource.UpdateUserDetails(input, userId);
         }
 
