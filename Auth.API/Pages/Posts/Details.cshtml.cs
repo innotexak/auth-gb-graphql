@@ -49,8 +49,6 @@ public class DetailsModel : PageModel
                 variables = new { id = Id }
             };
 
-            Console.WriteLine($"GraphQL Request: {System.Text.Json.JsonSerializer.Serialize(graphQLRequest)}");
-
             var jsonOptions = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
