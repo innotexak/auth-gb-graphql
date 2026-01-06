@@ -1,0 +1,62 @@
+@page "{id}"
+@model Auth.API.Pages.Posts.DetailsModel
+@{
+    ViewData["Title"] = "Post details";
+}
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="mb-3 rounded-md border border-red-200 bg-red-50 text-red-700 px-3 py-2 text-sm">
+        @Model.ErrorMessage
+    </div>
+}
+@if (Model.Post is not null)
+{
+    <article class="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
+        <div class="flex items-start justify-between mb-4">
+            <h1 class="text-2xl font-semibold text-slate-900 flex-1">@Model.Post.Title</h1>
+            <button type="button"
+                    onclick="copyCurrentUrl(event)"
+                    class="ml-4 px-3 py-1.5 text-sm rounded-md bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+                Copy Link
+            </button>
+        </div>
+        <p class="text-sm text-slate-600 mb-4">@Model.Post.Description</p>
+        <div class="prose prose-sm max-w-none text-slate-800">
+            @Model.Post.Content
+
+            <div class="mt-2 flex gap-3 text-xs">
+                <a asp-page="/Posts/Index"
+                   class="text-sky-600 hover:text-sky-700 font-medium">
+                    Back
+                </a>
+             
+                <a asp-page="Edit" asp-route-id="@Model.Post.Id" class="text-slate-600 hover:text-sky-700">Edit</a>
+                <a asp-page="Delete" asp-route-id="@Model.Post.Id" class="text-slate-600 hover:text-rose-600">Delete</a>
+            </div>
+        </div>
+    </article>
+}
+else
+{
+    <p class="text-sm text-slate-500">Post not found.</p>
+}
+
+<script>
+    function copyCurrentUrl(event) {
+        event.preventDefault();
+        const currentUrl = window.location.href;
+
+        navigator.clipboard.writeText(currentUrl).then(() => {
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = 'Copied!';
+
+            setTimeout(() => {
+                button.textContent = originalText;
+            }, 2000);
+        }).catch(err => {
+            console.error('Failed to copy:', err);
+            alert('Failed to copy link to clipboard');
+        });
+    }
+</script>

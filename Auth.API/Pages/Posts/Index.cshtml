@@ -1,0 +1,91 @@
+@page
+@model Auth.API.Pages.Posts.IndexModel
+@{
+    ViewData["Title"] = "Posts";
+}
+<div class="flex items-center justify-between mb-4">
+    <h1 class="text-2xl font-semibold text-slate-900">Posts</h1>
+    <a asp-page="Create"
+       class="inline-flex items-center px-3 py-1.5 rounded-md bg-sky-600 text-white text-sm hover:bg-sky-700">
+        New Post
+    </a>
+</div>
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="mb-3 rounded-md border border-red-200 bg-red-50 text-red-700 px-3 py-2 text-sm">
+        @Model.ErrorMessage
+    </div>
+}
+@if (Model.Posts is { Count: > 0 })
+{
+    <div class="bg-white rounded-xl shadow-sm border border-slate-100 divide-y">
+        @foreach (var post in Model.Posts)
+        {
+            <article class="p-4 flex flex-col gap-2">
+                <h2 class="text-lg font-semibold text-slate-900">
+                    <a asp-page="Details" asp-route-id="@post.Id"
+                       class="hover:text-sky-700">@post.Title</a>
+                </h2>
+                <p class="text-sm text-slate-600 line-clamp-2">@post.Description</p>
+                <p class="text-sm text-slate-600 line-clamp-2">@post.Content</p>
+                <div class="mt-2 flex gap-3 text-xs">
+                    <a asp-page="Details" asp-route-id="@post.Id"
+                       class="text-sky-600 hover:text-sky-700 font-medium">
+                        View More
+                    </a>
+                    <button type="button"
+                            onclick="copyPostUrl('@post.Id', event)"
+                            class="text-slate-600 hover:text-slate-700 font-medium">
+                        Copy Link
+                    </button>
+                    <a asp-page="Edit" asp-route-id="@post.Id" class="text-slate-600 hover:text-sky-700">Edit</a>
+                    <a asp-page="Delete" asp-route-id="@post.Id" class="text-slate-600 hover:text-rose-600">Delete</a>
+                </div>
+            </article>
+        }
+    </div>
+    <div class="mt-4 flex items-center justify-between text-xs text-slate-600">
+        <span>Page @Model.PageNumber of @Model.TotalPages</span>
+        <div class="flex gap-2">
+            @if (Model.PageNumber > 1)
+            {
+                <a asp-page="./Index" asp-route-pageNumber="@(Model.PageNumber - 1)" asp-route-pageSize="@Model.PageSize"
+                   class="px-2 py-1 rounded border border-slate-300 hover:bg-slate-50">
+                    Previous
+                </a>
+            }
+            @if (Model.PageNumber < Model.TotalPages)
+            {
+                <a asp-page="./Index" asp-route-pageNumber="@(Model.PageNumber + 1)" asp-route-pageSize="@Model.PageSize"
+                   class="px-2 py-1 rounded border border-slate-300 hover:bg-slate-50">
+                    Next
+                </a>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <p class="text-sm text-slate-500">No posts found.</p>
+}
+
+<script>
+    function copyPostUrl(postId, event) {
+        event.preventDefault();
+        const baseUrl = window.location.origin;
+        const postUrl = `${baseUrl}/Posts/Details?id=${postId}`;
+
+        navigator.clipboard.writeText(postUrl).then(() => {
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = 'Copied!';
+
+            setTimeout(() => {
+                button.textContent = originalText;
+            }, 2000);
+        }).catch(err => {
+            console.error('Failed to copy:', err);
+            alert('Failed to copy link to clipboard');
+        });
+    }
+</script>

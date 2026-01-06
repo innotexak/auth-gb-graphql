@@ -1,31 +1,88 @@
-using System.Text;
-using Auth.API.Data;
-using Auth.API.Services;
-using Microsoft.EntityFrameworkCore;
+﻿using Auth.API.Data;
+using Auth.API.Entities;
+using Auth.API.ErrorHandling;
+using Auth.API.Helpers;
+using Auth.API.Modules;
+using Auth.API.Services.AuthService;
+using Auth.API.Services.DmService;
+using Auth.API.Services.PostService;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-
+using System.Text;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
+// --------------------
+// Database
+// --------------------
 builder.Services.AddDbContext<AuthDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
+// --------------------
+// Razor Pages + HTTP
+// --------------------
+builder.Services.AddRazorPages();
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<AuthHelpers>();
+builder.Services.AddScoped<AuthDatasource>();
+builder.Services.AddScoped<PostDatasource>();
+builder.Services.AddScoped<DmDatasource>();
+//builder.Services.AddSignalR();
+builder.Services.AddHttpContextAccessor();
 
+// --------------------
+// GraphQL
+// --------------------
+var modules = new GraphQLModules();
 builder.Services.AddGraphQLServer()
-    .AddAuthorization()     
-    .AddQueryType<Query>()
-    .AddMutationType<Mutation>();
+    .AddErrorFilter<GraphQLErrorFilter>()
+    .AddAuthorization()
+    .AddQueryType(d => d.Name("Query"))
+    .AddTypes(modules.Queries)
+    .AddMutationType(d => d.Name("Mutation"))
+    .AddTypes(modules.Mutations)
+    .AddSubscriptionType(d => d.Name("Subscription"))
+    .AddTypes(modules.Subscriptions)
+    .AddType<DirectMessage>()
+    .AddInMemorySubscriptions();
 
-var key = Encoding.UTF8.GetBytes(builder.Configuration["AppSettings:JWT_SECRET"]!);
+// --------------------
+// Authentication
+// --------------------
+var jwtKey = Encoding.UTF8.GetBytes(builder.Configuration["AppSettings:JWT_SECRET"]!);
+var cookieName = "xx-auth-cookie";
+
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})    
-.AddJwtBearer(options =>
+    options.DefaultAuthenticateScheme = "SMART_AUTH";
+    options.DefaultChallengeScheme = "SMART_AUTH";
+})
+.AddPolicyScheme("SMART_AUTH", "JWT or Cookie", options =>
+{
+    options.ForwardDefaultSelector = context =>
+    {
+        // Mobile JWT
+        var authHeader = context.Request.Headers["Authorization"].FirstOrDefault();
+        if (!string.IsNullOrEmpty(authHeader) && authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+        {
+            return JwtBearerDefaults.AuthenticationScheme;
+        }
+
+        // Web cookie
+        if (!string.IsNullOrEmpty(cookieName) && context.Request.Cookies.ContainsKey(cookieName))
+        {
+            return CookieAuthenticationDefaults.AuthenticationScheme; // MUST match AddCookie scheme
+        }
+
+        // Fallback
+        return JwtBearerDefaults.AuthenticationScheme;
+    };
+})
+.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
@@ -33,20 +90,36 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = false,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key)
+        IssuerSigningKey = new SymmetricSecurityKey(jwtKey)
     };
-}).AddCookie(builder.Configuration["AppSettings:COOKIENAME"]!, options => {
+})
+.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+{
     options.LoginPath = "/Auth/Login";
     options.AccessDeniedPath = "/Auth/Forbidden";
-    options.Cookie.Name = builder.Configuration["AppSettings:COOKIENAME"];
-
+    options.Cookie.Name = cookieName;
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SecurePolicy =  CookieSecurePolicy.Always;
+    options.Cookie.SameSite = SameSiteMode.None;
 });
 
+// --------------------
+// Build & Middleware
+// --------------------
 var app = builder.Build();
 
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseStaticFiles();
 
+app.MapRazorPages();
+app.UseWebSockets();
 app.MapGraphQL();
-
 app.RunWithGraphQLCommands(args);

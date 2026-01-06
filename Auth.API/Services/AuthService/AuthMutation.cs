@@ -1,49 +1,136 @@
-using Auth.API.Data;
-using Auth.API.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using HotChocolate.Authorization;
+using System.Security.Claims;
 
-namespace Auth.API.Services;
-[GraphQLName("Mutation")]
-public class Mutation
+namespace Auth.API.Services.AuthService
 {
-    public async Task<NormalResponseDto> RegisterUser(RegisterDto input,    [Service] AuthDBContext dbContext, CancellationToken cancellationToken)
+    [ExtendObjectType(Name = "Mutation")]
+    public class AuthMutation
     {
-          var entity = new User
+        public async Task<NormalResponseDto> RegisterUser(
+            RegisterDto input,
+            [Service] AuthDatasource authDatasource,
+            CancellationToken cancellationToken)
         {
-            Id = new Guid(),
-            Username = input.Username,
-            Email = input.Email,
-            Password =  new PasswordHasher<RegisterDto>().HashPassword(input, input.Password)
-        };
-        dbContext.Users.Add(entity);
-        await dbContext.SaveChangesAsync(cancellationToken);
-        return new NormalResponseDto { Message = "User registered successfully", StatusCode = 201 };
-    }
-
-    public async Task<LoginResponseDto> LoginUser(LoginDto input, [Service] AuthDBContext dbContext, CancellationToken cancellationToken)
-    {
-        var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Username == input.Username, cancellationToken);
-        if (user == null)
-        {
-            throw new Exception("User not found");
+            return await authDatasource.RegisterUserAsync(input, cancellationToken);
         }
 
-        var passwordVerificationResult = new PasswordHasher<LoginDto>().VerifyHashedPassword(input, user.Password, input.Password);
-        if (passwordVerificationResult == PasswordVerificationResult.Failed)
+       
+        public async Task<NormalResponseWithDataDto<LoginResponseDto>> LoginUser(
+            LoginDto input,
+            [Service] AuthDatasource authDatasource,
+            HttpContext context,
+            CancellationToken cancellationToken)
         {
-            throw new Exception("Invalid password");
+            var user = await authDatasource.LoginUserAsync(input, cancellationToken);
+            if (user == null)
+            {
+
+
+                return new NormalResponseWithDataDto<LoginResponseDto>
+                {
+                    Message = "Invalid credentials",
+                    StatusCode = 401,
+                    Data = null
+                };
+            }
+
+
+                if (context == null)
+            {
+
+                return new NormalResponseWithDataDto<LoginResponseDto>
+                {
+                    Message = "Internal Server Error: No HTTP Context",
+                    StatusCode = 500
+                };
+            }
+
+            var platformHeader = context.Request!.Headers["X-Platform"].FirstOrDefault();
+            
+
+            var isWeb = string.Equals(platformHeader, "web", StringComparison.OrdinalIgnoreCase);
+
+            if (isWeb)
+            {
+                var resultPayload = await authDatasource.SetCookieAndGetResponsePayloadAsync(user, context);
+                return new NormalResponseWithDataDto<LoginResponseDto>
+                {
+                    Message = "Login successfful. Cookie set",
+                    StatusCode = 200,
+                    Data =  resultPayload
+                };
+          
+            }
+            else 
+            {           
+                var tokens = await authDatasource.CreateRefreshTokens(user);
+                return new NormalResponseWithDataDto<LoginResponseDto>
+                {
+                    Message="Login successful",
+                    StatusCode=200,
+                    Data = new LoginResponseDto 
+                    {
+                         Tokens = tokens,
+                         UserId = user.Id.ToString(),
+                         Username = user.Username,
+                         Email = user.Email
+                    }
+                };
+            }
+               
         }
 
-        // Generate JWT token (implementation not shown here)
-        var token = "GeneratedJWTToken"; // Replace with actual token generation logic
-
-        return new LoginResponseDto
+        [Authorize]
+        public async Task<NormalResponseWithDataDto<LogoutResponseDto>> LogoutUser(
+            [Service] AuthDatasource authDatasource,
+            HttpContext context
+        )
         {
-            Token = token,
-            UserId = user.Id.ToString(),
-            Username = user.Username,
-            Email = user.Email
-        };
+            await authDatasource.LogoutAsync(context);
+
+            return new NormalResponseWithDataDto<LogoutResponseDto>
+            {
+                Message ="Logout successfully",
+                StatusCode = 200,
+            };
+        }
+
+        [Authorize]
+        public async Task<NormalResponseDto> UpdateUserDetails(
+            ProfileUpdateDto input,
+            ClaimsPrincipal user,
+            [Service] AuthDatasource authDatasource,
+            HttpContext context)
+        {
+            var currentUserId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                                 ?? user.FindFirst("sub")?.Value;
+
+            if (string.IsNullOrEmpty(currentUserId))
+            {
+                throw new UnauthorizedAccessException("User not authenticated.");
+            }
+
+            Guid userId = Guid.Parse(currentUserId);
+            System.Diagnostics.Debug.WriteLine(input);
+            return await authDatasource.UpdateUserDetails(input, userId);
+        }
+
+        [Authorize]
+        public async Task<NormalResponseDto> DeleteUser(
+            ClaimsPrincipal user,
+            [Service] AuthDatasource authDatasource)
+        {
+            var currentUserId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                            ?? user.FindFirst("sub")?.Value;
+
+            if (string.IsNullOrEmpty(currentUserId))
+            {
+                throw new UnauthorizedAccessException("User not authenticated.");
+            }
+
+            Guid userId = Guid.Parse(currentUserId);
+
+            return await authDatasource.DeleteUserAsync(userId);
+        }
     }
 }
