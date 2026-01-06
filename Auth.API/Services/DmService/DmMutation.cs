@@ -136,13 +136,10 @@
             //Add user to group
             public async Task<NormalResponseDto> AddUserToGroupChat(
                 Guid conversationId, 
-                Guid newUserId, 
+                List<Guid> newUserId, 
                 ClaimsPrincipal user,
                 [Service] DmDatasource datasource)
             {
-
-
-
                 var adminId =
                         user.FindFirst(ClaimTypes.NameIdentifier)?.Value ??
                         user.FindFirst("sub")?.Value;
@@ -151,7 +148,7 @@
                     throw new GraphQLException("You must login first for this action");
 
                 }
-                return  await datasource.AddGroupMemberAsync(conversationId, new Guid(adminId), newUserId);
+                return  await datasource.AddGroupMembersAsync(conversationId, new Guid(adminId), newUserId);
 
             }
 

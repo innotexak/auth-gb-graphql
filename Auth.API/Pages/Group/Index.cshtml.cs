@@ -22,42 +22,48 @@ namespace Auth.API.Pages.Dm
 
         public class AddMembersInput
         {
+            [JsonPropertyName("conversationId")]
             public string ConversationId { get; set; } = string.Empty;
+
+            [JsonPropertyName("userIds")]
             public List<string> UserIds { get; set; } = new();
         }
 
-        // Handler to add multiple members to a group conversation
+        // Ensure this handler is reached
         public async Task<IActionResult> OnPostAddMembersAsync([FromBody] AddMembersInput input)
         {
             if (!_authHelpers.IsUserLoggedIn()) return Unauthorized();
 
+            // Safety check: if JS sends empty list
+            if (input.UserIds == null || !input.UserIds.Any())
+                return new JsonResult(new { message = "No users selected" }) { StatusCode = 400 };
+
             try
             {
                 var client = _authHelpers.GetAuthenticatedClient();
-                string? lastMsg = "Success";
+                string lastMsg = "Successfully added members";
 
                 foreach (var userId in input.UserIds)
                 {
                     var request = new
                     {
                         query = @"mutation Add($conId: UUID!, $uId: UUID!) {
-                            addUserToGroupChat(conversationId: $conId, newUserId: $uId) { message statusCode }
-                        }",
+                    addUserToGroupChat(conversationId: $conId, newUserId: $uId) { message statusCode }
+                }",
                         variables = new { conId = input.ConversationId, uId = userId }
                     };
 
                     var res = await client.PostAsJsonAsync("/graphql", request);
-                    var json = await res.Content.ReadFromJsonAsync<JsonElement>();
-
-                    if (json.TryGetProperty("data", out var data))
-                        lastMsg = data.GetProperty("addUserToGroupChat").GetProperty("message").GetString();
+                    // Check for errors here if one specific user fails
                 }
 
                 return new JsonResult(new { message = lastMsg });
             }
-            catch (Exception ex) { return new JsonResult(new { message = ex.Message }) { StatusCode = 500 }; }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { message = ex.Message }) { StatusCode = 500 };
+            }
         }
-
         public async Task OnGetAsync()
         {
             if (_authHelpers.IsUserLoggedIn()) await LoadUserGroups();

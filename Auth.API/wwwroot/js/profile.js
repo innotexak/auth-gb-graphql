@@ -62,11 +62,7 @@
         });
 
         // Save changes
-        saveBtn?.addEventListener('click', (e) => {
-
-            e.preventDefault();   // 🔴 STOP page reload
-            e.stopPropagation()
-
+        saveBtn?.addEventListener('click', () => {
 
             const formData = {
                 firstName: document.getElementById('firstName').value,
@@ -77,9 +73,6 @@
                     profileVisibility: document.getElementById('profileVisibility').value
                 }
             };
-
-
-            console.log(formData, "form data to be saved")
             fetch('?handler=UpdateProfile', {
                 method: 'POST',
                 headers: {
@@ -91,8 +84,8 @@
             })
                 .then(async res => {
                     const data = await res.json().catch(() => null);
-                    console.log("Status:", res.status);
-                    console.log("Response:", data);
+               
+                    window.location.reload();
                 })
                 .catch(err => console.error("Fetch error:", err));
         });

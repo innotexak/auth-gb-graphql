@@ -196,18 +196,12 @@ namespace Auth.API.Services.DmService
 
 
         //Add member to group for chatting
-        public async Task<NormalResponseDto> AddGroupMemberAsync(
-        Guid conversationId,
-        Guid adminId,
-        Guid newUserId
-)
+        public async Task<NormalResponseDto> AddGroupMembersAsync(
+            Guid conversationId,
+            Guid adminId,
+            List<Guid> newUserIds)
         {
-
-            System.Diagnostics.Debug.WriteLine($" conversation Id:{conversationId}");
-            System.Diagnostics.Debug.WriteLine($" new Uswer Id:{newUserId}");
-            System.Diagnostics.Debug.WriteLine($" admin Id:{adminId}");
-
-
+            // 1. Validate Admin Permissions
             var isAdmin = await _db.ConversationParticipants
                 .AnyAsync(p =>
                     p.ConversationId == conversationId &&
@@ -215,28 +209,51 @@ namespace Auth.API.Services.DmService
                     p.Role == GroupRole.Admin
                 );
 
-            if (!isAdmin) {
+            if (!isAdmin)
+            {
                 return new NormalResponseDto
                 {
                     Message = "Only admins can add members",
-                    StatusCode = 401
+                    StatusCode = 403 // Changed from 401 to 403 (Forbidden) as 401 is for unauthenticated
                 };
-        
             }
-            _db.ConversationParticipants.Add(new ConversationParticipant
+
+            // 2. Identify users who are already in the group to avoid duplicates
+            var existingUserIds = await _db.ConversationParticipants
+                .Where(p => p.ConversationId == conversationId && newUserIds.Contains(p.UserId))
+                .Select(p => p.UserId)
+                .ToListAsync();
+
+            // 3. Filter the list to only include "new" members
+            var idsToAdd = newUserIds.Except(existingUserIds).ToList();
+
+            if (!idsToAdd.Any())
+            {
+                return new NormalResponseDto
+                {
+                    Message = "All specified users are already members of this group",
+                    StatusCode = 200
+                };
+            }
+
+            // 4. Map IDs to Participant entities
+            var newParticipants = idsToAdd.Select(userId => new ConversationParticipant
             {
                 Id = Guid.NewGuid(),
                 ConversationId = conversationId,
-                UserId = newUserId,
+                UserId = userId,
                 JoinedAt = DateTime.UtcNow,
                 Role = GroupRole.Member,
                 Type = ConversationType.Group,
-            });
+            }).ToList();
 
+            // 5. Bulk Add and Save
+            await _db.ConversationParticipants.AddRangeAsync(newParticipants);
             await _db.SaveChangesAsync();
+
             return new NormalResponseDto
             {
-                Message = "User added successfully",
+                Message = $"{newParticipants.Count} members added successfully",
                 StatusCode = 201,
             };
         }

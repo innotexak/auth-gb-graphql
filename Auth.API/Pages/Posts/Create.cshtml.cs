@@ -39,7 +39,7 @@ public class CreateModel : PageModel
     
         if (!_authHelpers.IsUserLoggedIn())
         {
-            ErrorMessage = "Please log in to view messages.";
+            ErrorMessage = "Please log in to create post.";
             return Page();
         }
 

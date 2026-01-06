@@ -2,8 +2,6 @@
 using Auth.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -45,7 +43,7 @@ public class ProfileModel : PageModel
         var graphQLRequest = new
         {
             query = @"
-             query GetProfile {`
+             query GetProfile {
               profile {
                 username
                 email
@@ -68,10 +66,12 @@ public class ProfileModel : PageModel
         try
         {
             var response = await client.PostAsJsonAsync("/graphql", graphQLRequest);
+            var body = await response.Content.ReadAsStringAsync();
+        
 
             if (!response.IsSuccessStatusCode)
             {
-                ErrorMessage = $"Backend returned status {(int)response.StatusCode}. You might be unauthorized.";
+                ErrorMessage = $"Backend returned {(int)response.StatusCode}: {body}";
                 return;
             }
 
@@ -104,26 +104,24 @@ public class ProfileModel : PageModel
         var graphQLRequest = new
         {
             query = @"
-        mutation UpdateUserProfile($input: ProfileUpdateDtoInput!) {
-          updateUserDetails(input: $input) {
-            message
-            statusCode
-          }
-        }",
-            variables = new
-            {
-                input = new
-                {
-                    firstName = input?.FirstName,
-                    lastName = input?.LastName,
-                    bio = input?.Bio,
-                    preferences = new
-                    {
-                        profileVisibility = input?.Preferences?.ProfileVisibility,
-                        emailNotification = input?.Preferences?.EmailNotification,
-                    }
+        query GetProfile {
+            profile {
+                username
+                email
+                firstName
+                lastName
+                bio
+                preferences {
+                    emailNotification
+                    profileVisibility
                 }
+                userStats {
+                    postCount
+                    groupCount
+                }
+                id
             }
+        }"
         };
 
         var response = await client.PostAsJsonAsync("/graphql", graphQLRequest);
