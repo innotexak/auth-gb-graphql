@@ -62,7 +62,11 @@
         });
 
         // Save changes
+        // Inside bindUpdateUser()
         saveBtn?.addEventListener('click', () => {
+            const uiMessage = document.getElementById('uiMessage');
+            const uiText = document.getElementById('uiMessageText');
+            const uiIcon = document.getElementById('uiMessageIcon');
 
             const formData = {
                 firstName: document.getElementById('firstName').value,
@@ -73,21 +77,51 @@
                     profileVisibility: document.getElementById('profileVisibility').value
                 }
             };
+
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Saving...';
+
             fetch('?handler=UpdateProfile', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'RequestVerificationToken':
-                        document.querySelector('input[name="__RequestVerificationToken"]').value
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
                 },
                 body: JSON.stringify(formData)
             })
                 .then(async res => {
-                    const data = await res.json().catch(() => null);
-               
-                    window.location.reload();
+                    let result;
+                    try {
+                        result = await res.json();
+                    } catch (e) {
+                        result = { errors: [{ message: "Server returned an invalid response." }] };
+                    }
+
+                    uiMessage.classList.remove('hidden', 'bg-green-50', 'text-green-700', 'border-green-200', 'bg-red-50', 'text-red-700', 'border-red-200');
+
+                    // Check specifically for GraphQL structure: data.updateUserDetails.statusCode
+                    const gqlData = result?.data?.updateUserDetails;
+
+                    if (res.ok && !result.errors && (gqlData?.statusCode === 200 || gqlData?.statusCode === 201)) {
+                        uiMessage.classList.add('bg-green-50', 'text-green-700', 'border-green-200');
+                        uiMessage.classList.remove('hidden');
+                        uiText.textContent = gqlData?.message || "Profile updated successfully!";
+                        uiIcon.innerHTML = '✅';
+                        setTimeout(() => window.location.reload(), 1500);
+                    } else {
+                        uiMessage.classList.add('bg-red-50', 'text-red-700', 'border-red-200');
+                        uiMessage.classList.remove('hidden');
+                        uiText.textContent = result.errors ? result.errors[0].message : (gqlData?.message || "Failed to update.");
+                        uiIcon.innerHTML = '❌';
+                        saveBtn.disabled = false;
+                        saveBtn.textContent = 'Save Changes';
+                    }
                 })
-                .catch(err => console.error("Fetch error:", err));
+                .catch(err => {
+                    console.error(err);
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = 'Save Changes';
+                });
         });
     }
 }

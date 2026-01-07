@@ -6,7 +6,7 @@
     namespace Auth.API.Services.PostService
     {
         
-    [ExtendObjectType(Name = "Query")]
+    [ExtendObjectType("Query")]
     public class PostQuery
     {
         public async Task<PaginatedResult<Post>> GetPosts(PaginationInput input , [Service] PostDatasource postDatasource)

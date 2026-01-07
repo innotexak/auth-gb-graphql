@@ -4,7 +4,7 @@ using Auth.API.Services.PostService;
 
 namespace Auth.API.Services.PostService
 {
-    [ExtendObjectType(Name = "Mutation")]
+    [ExtendObjectType("Mutation")]
     public class PostMutation
     {
         public Task<NormalResponseWithDataDto<PostResponseDto>> CreatePost(CreatePostDto input, [Service] PostDatasource postDatasource)

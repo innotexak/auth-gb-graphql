@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace Auth.API.Services.AuthService
 {
-    [ExtendObjectType(Name = "Query")]
+    [ExtendObjectType("Query")]
     public class AuthQuery
     {
         [Authorize]

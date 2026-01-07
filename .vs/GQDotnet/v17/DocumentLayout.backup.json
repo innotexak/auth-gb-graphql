@@ -3,8 +3,99 @@
   "WorkspaceRootPath": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\pages\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\pages\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\services\\authservice\\authdatasource.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\services\\authservice\\authdatasource.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\innocent.akuh\\AppData\\Roaming\\Microsoft\\UserSecrets\\c177759a-23c8-4e81-b869-116921042fa7\\secrets.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\seed\\adminseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\seed\\adminseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\entities\\authentication.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\entities\\authentication.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\services\\authservice\\authdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\services\\authservice\\authdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\data\\dbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\data\\dbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\entities\\auth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\entities\\auth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\services\\authservice\\authmutation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\services\\authservice\\authmutation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\wwwroot\\js\\profile.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\wwwroot\\js\\profile.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\wwwroot\\js\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\wwwroot\\js\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\pages\\auth\\profile.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\pages\\auth\\profile.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\migrations\\20251224095242_conversationtype.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\migrations\\20251224095242_conversationtype.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\migrations\\20251223082944_updatedgroupdb.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\migrations\\20251223082944_updatedgroupdb.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\migrations\\20251223094201_updategroupforuniqueness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\migrations\\20251223094201_updategroupforuniqueness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\services\\dmservice\\dmsubscription.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\services\\dmservice\\dmsubscription.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\services\\dmservice\\dmquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\services\\dmservice\\dmquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\services\\postservice\\postquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\services\\postservice\\postquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\services\\authservice\\authquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\services\\authservice\\authquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\services\\dmservice\\dmmutation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\services\\dmservice\\dmmutation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\migrations\\20251223080826_creategrouptable.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\migrations\\20251223080826_creategrouptable.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\pages\\posts\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -35,24 +126,12 @@
       "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\pages\\posts\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\wwwroot\\js\\profile.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\wwwroot\\js\\profile.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\pages\\posts\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\pages\\posts\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\pages\\posts\\create.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\pages\\posts\\create.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\pages\\auth\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\pages\\auth\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\pages\\auth\\profile.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\pages\\auth\\profile.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\helpers\\authhelpers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -63,28 +142,12 @@
       "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\pages\\dm\\chat.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\services\\dmservice\\dmmutation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\services\\dmservice\\dmmutation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\services\\dmservice\\dmdatasource.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\services\\dmservice\\dmdatasource.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\helpers\\chathub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\helpers\\chathub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\services\\authservice\\authdatasource.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\services\\authservice\\authdatasource.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\services\\authservice\\authmutation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\services\\authservice\\authmutation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\entities\\auth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\entities\\auth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\entities\\directmessage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -105,10 +168,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\pages\\auth\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\pages\\auth\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|c:\\users\\innocent.akuh\\desktop\\gqdotnet\\auth.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6CCB51E9-DAB4-2CD9-A6C7-0D831C6FB937}|Auth.API\\Auth.API.csproj|solutionrelative:auth.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -118,7 +177,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -130,44 +189,259 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "DirectMessage.cs",
-              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Entities\\DirectMessage.cs",
-              "RelativeDocumentMoniker": "Auth.API\\Entities\\DirectMessage.cs",
-              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Entities\\DirectMessage.cs",
-              "RelativeToolTip": "Auth.API\\Entities\\DirectMessage.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAA2wBMAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "AuthDTO.cs",
+              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Services\\AuthService\\AuthDTO.cs",
+              "RelativeDocumentMoniker": "Auth.API\\Services\\AuthService\\AuthDTO.cs",
+              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Services\\AuthService\\AuthDTO.cs",
+              "RelativeToolTip": "Auth.API\\Services\\AuthService\\AuthDTO.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAYAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-05T10:13:33.532Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "profile.js",
-              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\wwwroot\\js\\profile.js",
-              "RelativeDocumentMoniker": "Auth.API\\wwwroot\\js\\profile.js",
-              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\wwwroot\\js\\profile.js",
-              "RelativeToolTip": "Auth.API\\wwwroot\\js\\profile.js",
-              "ViewState": "AgIAAD4AAAAAAAAAAAAIwEUAAAA6AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-01-05T08:14:37.527Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Pages\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "Auth.API\\Pages\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Pages\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "Auth.API\\Pages\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAABwAAAAAAAAAAAAIwB8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-01-05T09:22:42.975Z",
+              "WhenOpened": "2026-01-07T09:53:18.808Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "AdminSeeder.cs",
+              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Seed\\AdminSeeder.cs",
+              "RelativeDocumentMoniker": "Auth.API\\Seed\\AdminSeeder.cs",
+              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Seed\\AdminSeeder.cs",
+              "RelativeToolTip": "Auth.API\\Seed\\AdminSeeder.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAIwCIAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-07T10:17:36.474Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "20251223094201_updategroupforuniqueness.cs",
+              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Migrations\\20251223094201_updategroupforuniqueness.cs",
+              "RelativeDocumentMoniker": "Auth.API\\Migrations\\20251223094201_updategroupforuniqueness.cs",
+              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Migrations\\20251223094201_updategroupforuniqueness.cs",
+              "RelativeToolTip": "Auth.API\\Migrations\\20251223094201_updategroupforuniqueness.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-07T08:06:25.777Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Profile.cshtml.cs",
+              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Pages\\Auth\\Profile.cshtml.cs",
+              "RelativeDocumentMoniker": "Auth.API\\Pages\\Auth\\Profile.cshtml.cs",
+              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Pages\\Auth\\Profile.cshtml.cs",
+              "RelativeToolTip": "Auth.API\\Pages\\Auth\\Profile.cshtml.cs",
+              "ViewState": "AgIAAHkAAAAAAAAAAAAIwHwAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-05T08:00:33.423Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AuthMutation.cs",
+              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Services\\AuthService\\AuthMutation.cs",
+              "RelativeDocumentMoniker": "Auth.API\\Services\\AuthService\\AuthMutation.cs",
+              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Services\\AuthService\\AuthMutation.cs",
+              "RelativeToolTip": "Auth.API\\Services\\AuthService\\AuthMutation.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-05T08:19:10.06Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AuthDatasource.cs",
+              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Services\\AuthService\\AuthDatasource.cs",
+              "RelativeDocumentMoniker": "Auth.API\\Services\\AuthService\\AuthDatasource.cs",
+              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Services\\AuthService\\AuthDatasource.cs",
+              "RelativeToolTip": "Auth.API\\Services\\AuthService\\AuthDatasource.cs",
+              "ViewState": "AgIAACkAAAAAAAAAAAAIwCwAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-05T09:14:21.544Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Auth.cs",
+              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Entities\\Auth.cs",
+              "RelativeDocumentMoniker": "Auth.API\\Entities\\Auth.cs",
+              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Entities\\Auth.cs",
+              "RelativeToolTip": "Auth.API\\Entities\\Auth.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAgAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-05T10:57:51.623Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Program.cs",
+              "RelativeDocumentMoniker": "Auth.API\\Program.cs",
+              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Program.cs",
+              "RelativeToolTip": "Auth.API\\Program.cs",
+              "ViewState": "AgIAAG0AAAAAAAAAAAAIwCIAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-02T10:51:14.202Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "DBContext.cs",
+              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Data\\DBContext.cs",
+              "RelativeDocumentMoniker": "Auth.API\\Data\\DBContext.cs",
+              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Data\\DBContext.cs",
+              "RelativeToolTip": "Auth.API\\Data\\DBContext.cs",
+              "ViewState": "AgIAAGsAAAAAAAAAAAAkwJ4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-07T10:12:31.092Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "secrets.json",
+              "DocumentMoniker": "C:\\Users\\innocent.akuh\\AppData\\Roaming\\Microsoft\\UserSecrets\\c177759a-23c8-4e81-b869-116921042fa7\\secrets.json",
+              "RelativeDocumentMoniker": "..\\..\\AppData\\Roaming\\Microsoft\\UserSecrets\\c177759a-23c8-4e81-b869-116921042fa7\\secrets.json",
+              "ToolTip": "C:\\Users\\innocent.akuh\\AppData\\Roaming\\Microsoft\\UserSecrets\\c177759a-23c8-4e81-b869-116921042fa7\\secrets.json",
+              "RelativeToolTip": "..\\..\\AppData\\Roaming\\Microsoft\\UserSecrets\\c177759a-23c8-4e81-b869-116921042fa7\\secrets.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-01-06T13:08:46.127Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\appsettings.json",
+              "RelativeDocumentMoniker": "Auth.API\\appsettings.json",
+              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\appsettings.json",
+              "RelativeToolTip": "Auth.API\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-01-06T13:08:05.285Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Authentication.cs",
+              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Entities\\Authentication.cs",
+              "RelativeDocumentMoniker": "Auth.API\\Entities\\Authentication.cs",
+              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Entities\\Authentication.cs",
+              "RelativeToolTip": "Auth.API\\Entities\\Authentication.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAkAAABQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-07T10:21:17.881Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "20251223082944_updatedgroupdb.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Migrations\\20251223082944_updatedgroupdb.Designer.cs",
+              "RelativeDocumentMoniker": "Auth.API\\Migrations\\20251223082944_updatedgroupdb.Designer.cs",
+              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Migrations\\20251223082944_updatedgroupdb.Designer.cs",
+              "RelativeToolTip": "Auth.API\\Migrations\\20251223082944_updatedgroupdb.Designer.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAIwA8AAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-07T08:06:28.328Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "profile.js",
+              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\wwwroot\\js\\profile.js",
+              "RelativeDocumentMoniker": "Auth.API\\wwwroot\\js\\profile.js",
+              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\wwwroot\\js\\profile.js",
+              "RelativeToolTip": "Auth.API\\wwwroot\\js\\profile.js",
+              "ViewState": "AgIAAGgAAAAAAAAAAAAAwHYAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-01-05T08:14:37.527Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "index.js",
+              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\wwwroot\\js\\index.js",
+              "RelativeDocumentMoniker": "Auth.API\\wwwroot\\js\\index.js",
+              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\wwwroot\\js\\index.js",
+              "RelativeToolTip": "Auth.API\\wwwroot\\js\\index.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-01-07T08:33:19.385Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "PostQuery.cs",
+              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Services\\PostService\\PostQuery.cs",
+              "RelativeDocumentMoniker": "Auth.API\\Services\\PostService\\PostQuery.cs",
+              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Services\\PostService\\PostQuery.cs",
+              "RelativeToolTip": "Auth.API\\Services\\PostService\\PostQuery.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAQwAcAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-07T07:53:52.104Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "DmQuery.cs",
+              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Services\\DmService\\DmQuery.cs",
+              "RelativeDocumentMoniker": "Auth.API\\Services\\DmService\\DmQuery.cs",
+              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Services\\DmService\\DmQuery.cs",
+              "RelativeToolTip": "Auth.API\\Services\\DmService\\DmQuery.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAkAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-07T07:54:09.247Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "20251224095242_conversationtype.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Migrations\\20251224095242_conversationtype.Designer.cs",
+              "RelativeDocumentMoniker": "Auth.API\\Migrations\\20251224095242_conversationtype.Designer.cs",
+              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Migrations\\20251224095242_conversationtype.Designer.cs",
+              "RelativeToolTip": "Auth.API\\Migrations\\20251224095242_conversationtype.Designer.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAUwA8AAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-07T08:06:32.599Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "DmSubscription.cs",
+              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Services\\DmService\\DmSubscription.cs",
+              "RelativeDocumentMoniker": "Auth.API\\Services\\DmService\\DmSubscription.cs",
+              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Services\\DmService\\DmSubscription.cs",
+              "RelativeToolTip": "Auth.API\\Services\\DmService\\DmSubscription.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAnwBsAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-07T07:54:20.664Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "AuthQuery.cs",
+              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Services\\AuthService\\AuthQuery.cs",
+              "RelativeDocumentMoniker": "Auth.API\\Services\\AuthService\\AuthQuery.cs",
+              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Services\\AuthService\\AuthQuery.cs",
+              "RelativeToolTip": "Auth.API\\Services\\AuthService\\AuthQuery.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAwAUAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-07T07:53:00.616Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
               "Title": "group-chat.js",
               "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\wwwroot\\js\\group-chat.js",
               "RelativeDocumentMoniker": "Auth.API\\wwwroot\\js\\group-chat.js",
@@ -175,12 +449,11 @@
               "RelativeToolTip": "Auth.API\\wwwroot\\js\\group-chat.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAF8AAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-01-05T08:14:54.246Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-05T08:14:54.246Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 32,
               "Title": "Create.cshtml.cs",
               "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Pages\\Posts\\Create.cshtml.cs",
               "RelativeDocumentMoniker": "Auth.API\\Pages\\Posts\\Create.cshtml.cs",
@@ -192,7 +465,67 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 16,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Pages\\Index.cshtml",
+              "RelativeDocumentMoniker": "Auth.API\\Pages\\Index.cshtml",
+              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Pages\\Index.cshtml",
+              "RelativeToolTip": "Auth.API\\Pages\\Index.cshtml",
+              "ViewState": "AgIAALAAAAAAAAAAAAAIwLMAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-01-07T08:01:11.719Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "DmMutation.cs",
+              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Services\\DmService\\DmMutation.cs",
+              "RelativeDocumentMoniker": "Auth.API\\Services\\DmService\\DmMutation.cs",
+              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Services\\DmService\\DmMutation.cs",
+              "RelativeToolTip": "Auth.API\\Services\\DmService\\DmMutation.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAIwAcAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-05T14:58:00.151Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "20251223080826_creategrouptable.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Migrations\\20251223080826_creategrouptable.Designer.cs",
+              "RelativeDocumentMoniker": "Auth.API\\Migrations\\20251223080826_creategrouptable.Designer.cs",
+              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Migrations\\20251223080826_creategrouptable.Designer.cs",
+              "RelativeToolTip": "Auth.API\\Migrations\\20251223080826_creategrouptable.Designer.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAABEAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-07T07:50:08.77Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "DirectMessage.cs",
+              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Entities\\DirectMessage.cs",
+              "RelativeDocumentMoniker": "Auth.API\\Entities\\DirectMessage.cs",
+              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Entities\\DirectMessage.cs",
+              "RelativeToolTip": "Auth.API\\Entities\\DirectMessage.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAA2wBMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-05T10:13:33.532Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "Auth.API\\appsettings.Development.json",
+              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\appsettings.Development.json",
+              "RelativeToolTip": "Auth.API\\appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-01-06T13:08:51.067Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
               "Title": "Details.cshtml",
               "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Pages\\Posts\\Details.cshtml",
               "RelativeDocumentMoniker": "Auth.API\\Pages\\Posts\\Details.cshtml",
@@ -200,12 +533,11 @@
               "RelativeToolTip": "Auth.API\\Pages\\Posts\\Details.cshtml",
               "ViewState": "AgIAABkAAAAAAAAAAAAIwBwAAABHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-01-06T11:37:40.968Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-06T11:37:40.968Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 28,
               "Title": "Index.cshtml.cs",
               "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Pages\\Group\\Index.cshtml.cs",
               "RelativeDocumentMoniker": "Auth.API\\Pages\\Group\\Index.cshtml.cs",
@@ -217,7 +549,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 40,
               "Title": "Chat.cshtml",
               "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Pages\\Dm\\Chat.cshtml",
               "RelativeDocumentMoniker": "Auth.API\\Pages\\Dm\\Chat.cshtml",
@@ -229,7 +561,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 29,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Pages\\Group\\Index.cshtml",
               "RelativeDocumentMoniker": "Auth.API\\Pages\\Group\\Index.cshtml",
@@ -241,7 +573,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 27,
               "Title": "dm-chat.js",
               "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\wwwroot\\js\\dm-chat.js",
               "RelativeDocumentMoniker": "Auth.API\\wwwroot\\js\\dm-chat.js",
@@ -253,7 +585,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 25,
               "Title": "Details.cshtml.cs",
               "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Pages\\Posts\\Details.cshtml.cs",
               "RelativeDocumentMoniker": "Auth.API\\Pages\\Posts\\Details.cshtml.cs",
@@ -261,60 +593,11 @@
               "RelativeToolTip": "Auth.API\\Pages\\Posts\\Details.cshtml.cs",
               "ViewState": "AgIAACkAAAAAAAAAAAAgwDIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-06T10:33:18.709Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-06T10:33:18.709Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "Profile.cshtml.cs",
-              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Pages\\Auth\\Profile.cshtml.cs",
-              "RelativeDocumentMoniker": "Auth.API\\Pages\\Auth\\Profile.cshtml.cs",
-              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Pages\\Auth\\Profile.cshtml.cs",
-              "RelativeToolTip": "Auth.API\\Pages\\Auth\\Profile.cshtml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-05T08:00:33.423Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "Auth.cs",
-              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Entities\\Auth.cs",
-              "RelativeDocumentMoniker": "Auth.API\\Entities\\Auth.cs",
-              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Entities\\Auth.cs",
-              "RelativeToolTip": "Auth.API\\Entities\\Auth.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAA9wBkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-05T10:57:51.623Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "AuthMutation.cs",
-              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Services\\AuthService\\AuthMutation.cs",
-              "RelativeDocumentMoniker": "Auth.API\\Services\\AuthService\\AuthMutation.cs",
-              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Services\\AuthService\\AuthMutation.cs",
-              "RelativeToolTip": "Auth.API\\Services\\AuthService\\AuthMutation.cs",
-              "ViewState": "AgIAAGYAAAAAAAAAAAAkwHIAAAA5AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-05T08:19:10.06Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "AuthDatasource.cs",
-              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Services\\AuthService\\AuthDatasource.cs",
-              "RelativeDocumentMoniker": "Auth.API\\Services\\AuthService\\AuthDatasource.cs",
-              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Services\\AuthService\\AuthDatasource.cs",
-              "RelativeToolTip": "Auth.API\\Services\\AuthService\\AuthDatasource.cs",
-              "ViewState": "AgIAACQBAAAAAAAAAAAIwDIBAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-05T09:14:21.544Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 30,
               "Title": "Create.cshtml",
               "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Pages\\Posts\\Create.cshtml",
               "RelativeDocumentMoniker": "Auth.API\\Pages\\Posts\\Create.cshtml",
@@ -326,7 +609,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 31,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Pages\\Posts\\Index.cshtml",
               "RelativeDocumentMoniker": "Auth.API\\Pages\\Posts\\Index.cshtml",
@@ -338,7 +621,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 33,
               "Title": "AuthHelpers.cs",
               "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Helpers\\AuthHelpers.cs",
               "RelativeDocumentMoniker": "Auth.API\\Helpers\\AuthHelpers.cs",
@@ -350,31 +633,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Profile.cshtml",
-              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Pages\\Auth\\Profile.cshtml",
-              "RelativeDocumentMoniker": "Auth.API\\Pages\\Auth\\Profile.cshtml",
-              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Pages\\Auth\\Profile.cshtml",
-              "RelativeToolTip": "Auth.API\\Pages\\Auth\\Profile.cshtml",
-              "ViewState": "AgIAAEgAAAAAAAAAAAAAABMAAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-01-05T07:59:04.811Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "DmMutation.cs",
-              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Services\\DmService\\DmMutation.cs",
-              "RelativeDocumentMoniker": "Auth.API\\Services\\DmService\\DmMutation.cs",
-              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Services\\DmService\\DmMutation.cs",
-              "RelativeToolTip": "Auth.API\\Services\\DmService\\DmMutation.cs",
-              "ViewState": "AgIAAIYAAAAAAAAAAAAiwIsAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-05T14:58:00.151Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 34,
               "Title": "Chat.cshtml.cs",
               "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Pages\\Dm\\Chat.cshtml.cs",
               "RelativeDocumentMoniker": "Auth.API\\Pages\\Dm\\Chat.cshtml.cs",
@@ -386,7 +645,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 36,
               "Title": "ChatHub.cs",
               "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Helpers\\ChatHub.cs",
               "RelativeDocumentMoniker": "Auth.API\\Helpers\\ChatHub.cs",
@@ -398,7 +657,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 35,
               "Title": "DmDatasource.cs",
               "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Services\\DmService\\DmDatasource.cs",
               "RelativeDocumentMoniker": "Auth.API\\Services\\DmService\\DmDatasource.cs",
@@ -410,7 +669,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 41,
               "Title": "Register.cshtml",
               "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Pages\\Auth\\Register.cshtml",
               "RelativeDocumentMoniker": "Auth.API\\Pages\\Auth\\Register.cshtml",
@@ -422,7 +681,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 39,
               "Title": "Login.cshtml",
               "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Pages\\Auth\\Login.cshtml",
               "RelativeDocumentMoniker": "Auth.API\\Pages\\Auth\\Login.cshtml",
@@ -434,7 +693,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 38,
               "Title": "Group.cs",
               "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Entities\\Group.cs",
               "RelativeDocumentMoniker": "Auth.API\\Entities\\Group.cs",
@@ -443,18 +702,6 @@
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-05T10:13:24.876Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Program.cs",
-              "RelativeDocumentMoniker": "Auth.API\\Program.cs",
-              "ToolTip": "C:\\Users\\innocent.akuh\\Desktop\\GQDotnet\\Auth.API\\Program.cs",
-              "RelativeToolTip": "Auth.API\\Program.cs",
-              "ViewState": "AgIAACoAAAAAAAAAAAAAAD4AAAACAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-02T10:51:14.202Z"
             }
           ]
         }

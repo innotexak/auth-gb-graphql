@@ -9,7 +9,7 @@ using static Auth.API.Services.DmService.DmDTOs;
 
 namespace Auth.API.Services.DmService
 {
-    [ExtendObjectType(Name = "Query")]
+    [ExtendObjectType("Query")]
     public class DmQuery
     {
 

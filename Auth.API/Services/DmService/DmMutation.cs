@@ -5,7 +5,7 @@
 
     namespace Auth.API.Services.DmService
     {
-        [ExtendObjectType(Name = "Mutation")]
+        [ExtendObjectType("Mutation")]
         public class DmMutation
         {
             public async Task<DirectMessage> SendDirectMessageAsync(

@@ -12,9 +12,9 @@ namespace Auth.API.Entities
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
 
-        public string Bio { get; set; }
-        public string Avatar { get; set; }  
-        public PrefereceDto Preferences { get; set; }
+        public string? Bio { get; set; }
+        public string? Avatar { get; set; }  
+        public PrefereceDto? Preferences { get; set; }
 
         [InverseProperty("User")]
         public Authentication? Authentication { get; set; } 

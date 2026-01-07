@@ -3,14 +3,17 @@ using Auth.API.Entities;
 using Auth.API.ErrorHandling;
 using Auth.API.Helpers;
 using Auth.API.Modules;
+using Auth.API.Seed;
 using Auth.API.Services.AuthService;
 using Auth.API.Services.DmService;
 using Auth.API.Services.PostService;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using User = Auth.API.Entities.User;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,6 +36,7 @@ builder.Services.AddScoped<PostDatasource>();
 builder.Services.AddScoped<DmDatasource>();
 //builder.Services.AddSignalR();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
 // --------------------
 // GraphQL
@@ -119,7 +123,16 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseStaticFiles();
 
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AuthDBContext>();
+    var hasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher<User>>();
+
+    await AdminSeeder.SeedSuperAdminAsync(db, hasher);
+}
 app.MapRazorPages();
 app.UseWebSockets();
 app.MapGraphQL();
 app.RunWithGraphQLCommands(args);
+

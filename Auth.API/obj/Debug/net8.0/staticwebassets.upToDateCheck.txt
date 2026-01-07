@@ -1,3 +1,4 @@
 wwwroot\js\dm-chat.js
 wwwroot\js\group-chat.js
+wwwroot\js\index.js
 wwwroot\js\profile.js

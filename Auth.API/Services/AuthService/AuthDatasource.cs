@@ -34,23 +34,38 @@ namespace Auth.API.Services.AuthService
                 return new NormalResponseDto { Message = "Username or Email already exists", StatusCode = 400 };
             }
 
-            var user = new User
+            try
             {
-                Id = Guid.NewGuid(),
-                Username = input.Username,
-                Email = input.Email
-            };
+                var user = new User
+                {
+                    Id = Guid.NewGuid(),
+                    Username = input.Username,
+                    Email = input.Email,
+                    Preferences =new PrefereceDto
+                    {
+                        EmailNotification=true,
+                        ProfileVisibility = ProfileVisibilityEnum.Public
+                    }
 
-            user.Password = _passwordHasher.HashPassword(user, input.Password);
+                };
 
-            _dbContext.Users.Add(user);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+                user.Password = _passwordHasher.HashPassword(user, input.Password);
 
-            return new NormalResponseDto
+                _dbContext.Users.Add(user);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+
+                return new NormalResponseDto
+                {
+                    Message = "User registered successfully",
+                    StatusCode = 201
+                };
+            }
+            catch (DbUpdateException ex)
             {
-                Message = "User registered successfully",
-                StatusCode = 201
-            };
+
+                var inner = ex.InnerException?.Message;
+                throw new GraphQLException($"DB ERROR: {inner}");
+            }
         }
 
         private string GenerateRefreshToken()

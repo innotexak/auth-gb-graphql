@@ -6,7 +6,7 @@ using static Auth.API.Services.DmService.DmDTOs;
 
 namespace Auth.API.Services.DmService
 {
-    [ExtendObjectType(Name = "Subscription")]
+    [ExtendObjectType("Subscription")]
     public class DmSubscription
     {
         [SubscribeAndResolve]

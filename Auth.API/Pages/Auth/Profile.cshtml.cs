@@ -91,51 +91,37 @@ public class ProfileModel : PageModel
             ErrorMessage = $"Connection error: {ex.Message}";
         }
     }
-
-    public async Task<IActionResult> OnPostUpdateProfileAsync(
-        [FromBody] ProfileUpdateDto input)
+    [IgnoreAntiforgeryToken(Order = 1001)]
+    public async Task<IActionResult> OnPostUpdateProfileAsync([FromBody] ProfileUpdateDto input)
     {
-        if (!_authHelpers.IsUserLoggedIn())
-            return new JsonResult(new { message = "Unauthorized" }) { StatusCode = 401 };
+        if (!_authHelpers.IsUserLoggedIn()) return new JsonResult(new { message = "Unauthorized" }) { StatusCode = 401 };
 
+
+        var options = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        };
         var client = _authHelpers.GetAuthenticatedClient();
-        client.BaseAddress = new Uri($"{Request.Scheme}://{Request.Host}");
 
         var graphQLRequest = new
         {
             query = @"
-        query GetProfile {
-            profile {
-                username
-                email
-                firstName
-                lastName
-                bio
-                preferences {
-                    emailNotification
-                    profileVisibility
-                }
-                userStats {
-                    postCount
-                    groupCount
-                }
-                id
+        mutation UpdateProfile($input: ProfileUpdateDtoInput!) {
+            updateUserDetails(input:$input ) {
+                message
+                statusCode
             }
-        }"
+        }",
+            variables = new { input = input } // Pass the DTO here
         };
 
-        var response = await client.PostAsJsonAsync("/graphql", graphQLRequest);
+        
 
+        var response = await client.PostAsJsonAsync("/graphql", graphQLRequest, options);
         var content = await response.Content.ReadAsStringAsync();
+        System.Diagnostics.Debug.WriteLine($"GraphQL Response: {content}");
 
-        if (!response.IsSuccessStatusCode)
-        {
-            // Return the server's error message
-            return new JsonResult(new { message = "GraphQL request failed", details = content })
-            { StatusCode = (int)response.StatusCode };
-        }
-
-        // Return the actual GraphQL response
         return new ContentResult
         {
             Content = content,
@@ -143,6 +129,8 @@ public class ProfileModel : PageModel
             StatusCode = (int)response.StatusCode
         };
     }
+
+
 
     //Logout user by clearing the auth cookie
     public IActionResult OnPostLogoutAsync()

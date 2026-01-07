@@ -3,7 +3,7 @@ using System.Security.Claims;
 
 namespace Auth.API.Services.AuthService
 {
-    [ExtendObjectType(Name = "Mutation")]
+    [ExtendObjectType("Mutation")]
     public class AuthMutation
     {
         public async Task<NormalResponseDto> RegisterUser(
