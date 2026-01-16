@@ -41,6 +41,8 @@ namespace Auth.API.Services.AuthService
                     Id = Guid.NewGuid(),
                     Username = input.Username,
                     Email = input.Email,
+                    Avatar = "default-avatar.png",
+                    Bio="I am a staff",
                     Preferences =new PrefereceDto
                     {
                         EmailNotification=true,
@@ -64,6 +66,9 @@ namespace Auth.API.Services.AuthService
             {
 
                 var inner = ex.InnerException?.Message;
+                System.Diagnostics.Debug.WriteLine("Before error logging");
+                System.Diagnostics.Debug.WriteLine(inner);
+                System.Diagnostics.Debug.WriteLine("after error");
                 throw new GraphQLException($"DB ERROR: {inner}");
             }
         }

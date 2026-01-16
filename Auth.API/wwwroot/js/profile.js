@@ -93,7 +93,9 @@
                     let result;
                     try {
                         result = await res.json();
+                        console.log("Full Result from Server:", result);
                     } catch (e) {
+                    
                         result = { errors: [{ message: "Server returned an invalid response." }] };
                     }
 

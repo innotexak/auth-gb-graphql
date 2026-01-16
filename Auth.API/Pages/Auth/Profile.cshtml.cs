@@ -12,14 +12,15 @@ public class ProfileModel : PageModel
     // Ensure this matches exactly what is in your AppSettings/Program.cs
     private readonly AuthHelpers _authHelpers;
 
+    public ProfileDto? Profile { get; set; }
+    public string? ErrorMessage { get; set; }
+
     public ProfileModel(IHttpClientFactory httpClientFactory, AuthHelpers authHelpers)
     {
         _authHelpers = authHelpers;
 
     }
 
-    public ProfileDto? Profile { get; set; }
-    public string? ErrorMessage { get; set; }
 
     public async Task OnGetAsync()
     {
@@ -91,36 +92,41 @@ public class ProfileModel : PageModel
             ErrorMessage = $"Connection error: {ex.Message}";
         }
     }
-    [IgnoreAntiforgeryToken(Order = 1001)]
+  
     public async Task<IActionResult> OnPostUpdateProfileAsync([FromBody] ProfileUpdateDto input)
     {
-        if (!_authHelpers.IsUserLoggedIn()) return new JsonResult(new { message = "Unauthorized" }) { StatusCode = 401 };
+        if (input == null) return new JsonResult(new { message = "Invalid data" }) { StatusCode = 400 };
 
+        //var options = new JsonSerializerOptions
+        //{
+        //    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        //    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        //};
 
         var options = new JsonSerializerOptions
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         };
-        var client = _authHelpers.GetAuthenticatedClient();
+        // Add this to handle the ProfileVisibilityEnum conversion
+        options.Converters.Add(new JsonStringEnumConverter());
 
+        var client = _authHelpers.GetAuthenticatedClient();
+      
         var graphQLRequest = new
         {
             query = @"
-        mutation UpdateProfile($input: ProfileUpdateDtoInput!) {
-            updateUserDetails(input:$input ) {
+        mutation UpdateUserProfile($input: ProfileUpdateDtoInput!) {
+            updateUserDetails(input: $input) {
                 message
                 statusCode
             }
         }",
-            variables = new { input = input } // Pass the DTO here
+            variables = new  { input = input }
         };
-
-        
 
         var response = await client.PostAsJsonAsync("/graphql", graphQLRequest, options);
         var content = await response.Content.ReadAsStringAsync();
-        System.Diagnostics.Debug.WriteLine($"GraphQL Response: {content}");
 
         return new ContentResult
         {
@@ -129,7 +135,6 @@ public class ProfileModel : PageModel
             StatusCode = (int)response.StatusCode
         };
     }
-
 
 
     //Logout user by clearing the auth cookie
@@ -207,7 +212,7 @@ public class ProfileModel : PageModel
             return new JsonResult(new
             {
                 success = true,
-                message = graphResponse.Data.Message ?? "Account deleted"
+                message = graphResponse?.Data?.Message ?? "Account deleted"
             });
         }
         catch (Exception ex)

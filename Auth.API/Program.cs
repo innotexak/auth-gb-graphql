@@ -43,6 +43,10 @@ builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 // --------------------
 var modules = new GraphQLModules();
 builder.Services.AddGraphQLServer()
+      .ModifyRequestOptions(o =>
+      {
+          o.IncludeExceptionDetails = true;
+      })
     .AddErrorFilter<GraphQLErrorFilter>()
     .AddAuthorization()
     .AddQueryType(d => d.Name("Query"))

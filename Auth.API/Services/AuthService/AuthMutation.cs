@@ -34,7 +34,6 @@ namespace Auth.API.Services.AuthService
                 };
             }
 
-
                 if (context == null)
             {
 
@@ -49,7 +48,7 @@ namespace Auth.API.Services.AuthService
             
 
             var isWeb = string.Equals(platformHeader, "web", StringComparison.OrdinalIgnoreCase);
-
+            //Cookie base Web login
             if (isWeb)
             {
                 var resultPayload = await authDatasource.SetCookieAndGetResponsePayloadAsync(user, context);
@@ -62,7 +61,8 @@ namespace Auth.API.Services.AuthService
           
             }
             else 
-            {           
+            {   
+                //Authorization base mobile app login (return user tokens and details)
                 var tokens = await authDatasource.CreateRefreshTokens(user);
                 return new NormalResponseWithDataDto<LoginResponseDto>
                 {

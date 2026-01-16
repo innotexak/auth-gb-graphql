@@ -48,20 +48,17 @@ public class ProfileDto
 
 }
 
-    public class UserStatistics
-    {
+public class UserStatistics 
+{
     public int PostCount { get; set; } = 0;
     public int GroupCount { get; set; } = 0;
-    }
+} 
 
 public class PrefereceDto
 {
     public ProfileVisibilityEnum ProfileVisibility { get; set; } = ProfileVisibilityEnum.Public;
     public bool EmailNotification { get; set; } = true;
 }
-
-
-
 
 public class ProfileUpdateDto
 {

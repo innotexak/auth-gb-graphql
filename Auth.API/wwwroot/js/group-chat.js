@@ -261,6 +261,11 @@
     async handleAddMembers() {
         if (!this.selectedGroup || this.selectedMembers.size === 0) return;
         try {
+
+            console.log({
+                conversationId: this.selectedGroup.conversationId,
+                userIds: Array.from(this.selectedMembers)
+            }, "user ids")
             const response = await fetch('?handler=AddMembers', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': this.getAntiforgeryToken() },
@@ -269,9 +274,13 @@
                     userIds: Array.from(this.selectedMembers)
                 })
             });
-            if (response.ok) {
-                await this.fetchGroupParticipants();
+            const result = await response.json();
+            if (result.statusCode === 201 || result.statusCode === 200) {
+                alert(result.message);
                 this.closeAddMembersModal();
+                await this.fetchGroupParticipants(); // Refresh the UI
+            } else {
+                alert("Error: " + result.message);
             }
         } catch (e) { console.error(e); }
     }
